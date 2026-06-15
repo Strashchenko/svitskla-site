@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Душові перегородки — каталог | Світскла Сервіс</title>
+<meta name="description" content="Каталог скляних душових перегородок на замовлення: розпашні, розсувні, безпрофільні. Виготовлення та монтаж під ключ.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --c-aqua:#15C9EA;--c-sky:#28A6DE;--c-azure:#3A80D2;--c-indigo:#4E54C6;
+  --grad:linear-gradient(120deg,#15C9EA 0%,#28A6DE 35%,#3A80D2 70%,#4E54C6 100%);
+  --c-ink:#0C0E12;--c-graphite:#191D24;--c-steel:#2B323C;--c-slate:#6C7886;--c-mist:#C6D2DC;--c-alice:#EAF3F8;
+  --bg-white:#FFFFFF;--bg-soft:#EAF3F8;--text-dark:#0C0E12;--text-body:#2B323C;--text-muted:#6C7886;--text-accent:#3A80D2;--border:#D9E2EA;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Manrope",system-ui,sans-serif;color:var(--text-body);background:var(--bg-white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+h1{font-size:clamp(2.5rem,5vw,5rem);font-weight:800;line-height:1.02;letter-spacing:-.03em;color:var(--text-dark)}
+h2{font-size:clamp(1.6rem,3vw,3rem);font-weight:800;line-height:1.08;letter-spacing:-.02em;color:var(--text-dark)}
+h3{font-size:1rem;font-weight:600}
+p{font-size:1rem;line-height:1.65}
+.section-label{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--text-accent)}
+.link-arrow{font-family:"IBM Plex Mono",monospace;font-size:.8rem;letter-spacing:.05em;border-bottom:1px solid currentColor;display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;padding-bottom:2px;transition:gap .25s}
+.link-arrow:hover{gap:.85rem}
+.btn{display:inline-flex;align-items:center;gap:.6rem;border:none;cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:.8rem;letter-spacing:.05em;text-transform:uppercase;padding:.85rem 1.75rem;border-radius:2rem;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.btn--light{border:1px solid rgba(255,255,255,.5);color:#fff;background:transparent}
+.btn--light:hover{background:#fff;color:var(--c-ink)}
+
+/* HEADER */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.5rem;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);color:var(--text-dark);height:68px;box-shadow:0 1px 0 var(--border)}
+.nav-menu-btn,.nav-search-btn{background:none;border:none;color:inherit;cursor:pointer;display:flex;align-items:center;gap:.5rem;font-family:"IBM Plex Mono",monospace}
+.nav-menu-label,.nav-search-label{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+.burger{display:inline-flex;flex-direction:column;gap:4px;width:20px}
+.burger span{height:1.5px;width:100%;background:currentColor;display:block}
+.site-logo{display:flex;align-items:center}
+.site-logo img{height:32px;width:auto}
+.nav-panel{position:fixed;inset:0;z-index:200;background:var(--c-ink);color:#fff;transform:translateX(-100%);transition:transform .5s cubic-bezier(.77,0,.175,1);display:flex;flex-direction:column;padding:5rem 1.5rem 2rem}
+.nav-panel.open{transform:translateX(0)}
+.nav-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 10%,rgba(78,84,198,.25),transparent 55%),radial-gradient(circle at 10% 90%,rgba(21,201,234,.18),transparent 50%);pointer-events:none}
+.nav-panel__close{position:absolute;top:1.25rem;right:1.5rem;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;z-index:1}
+.nav-panel ul{list-style:none;position:relative;z-index:1}
+.nav-panel a{display:block;text-decoration:none;color:#fff;padding:.55rem 0;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:600;opacity:.85;transition:opacity .2s,padding-left .25s}
+.nav-panel a:hover{opacity:1;padding-left:.5rem;color:var(--c-aqua)}
+.nav-panel__meta{margin-top:auto;font-family:"IBM Plex Mono",monospace;font-size:.8rem;opacity:.7;line-height:1.9;position:relative;z-index:1}
+
+/* HEAD */
+.cat-hero{padding:8.5rem 1.5rem 2.5rem;background:var(--bg-soft)}
+.breadcrumb{font-family:"IBM Plex Mono",monospace;font-size:.75rem;color:var(--text-muted);margin-bottom:1.5rem;letter-spacing:.04em}
+.breadcrumb a{text-decoration:none;color:var(--text-muted)}
+.breadcrumb a:hover{color:var(--c-azure)}
+.cat-hero p.lead{max-width:700px;margin-top:1rem;color:var(--text-body)}
+
+/* FILTERS */
+.filter-bar{display:flex;flex-wrap:wrap;gap:.5rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);position:sticky;top:68px;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);z-index:50}
+.filter-chip{border:1px solid var(--border);background:#fff;color:var(--text-body);padding:.5rem 1.1rem;border-radius:2rem;font-family:"IBM Plex Mono",monospace;font-size:.78rem;cursor:pointer;transition:all .2s}
+.filter-chip:hover{border-color:var(--c-azure)}
+.filter-chip.active{background:var(--grad);color:#fff;border-color:transparent}
+.filter-spacer{margin-left:auto}
+.sort-select{border:1px solid var(--border);border-radius:2rem;padding:.5rem 1rem;font-family:"IBM Plex Mono",monospace;font-size:.78rem;background:#fff;cursor:pointer;color:var(--text-body)}
+
+/* GRID */
+.catalog{padding:2.5rem 1.5rem 5rem}
+.catalog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+@media(min-width:768px){.catalog-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1200px){.catalog-grid{grid-template-columns:repeat(4,1fr)}}
+.pcard{background:#fff;text-decoration:none;display:block;opacity:1;transform:none;transition:transform .3s ease}
+.pcard.is-visible{opacity:1;transform:none}
+.pcard__media{position:relative;aspect-ratio:9/16;overflow:hidden;background:var(--bg-soft);border-radius:4px}
+.pcard__media img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.pcard:hover .pcard__media img{transform:scale(1.05)}
+.pcard__badge{position:absolute;top:.6rem;left:.6rem;background:var(--grad);color:#fff;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.05em;padding:.25rem .55rem;border-radius:3px}
+.pcard__body{padding:.85rem .25rem}
+.pcard__title{font-size:1rem;font-weight:700;color:var(--text-dark);line-height:1.35;letter-spacing:-.01em}
+.pcard__price{font-family:"IBM Plex Mono",monospace;font-size:.82rem;color:var(--text-muted);margin-top:.4rem}
+.pcard__price strong{color:var(--text-dark);font-weight:500}
+.load-more{display:block;margin:3rem auto 0;border:1px solid var(--c-azure);background:#fff;color:var(--c-azure);padding:.85rem 2.5rem;border-radius:2rem;font-family:"IBM Plex Mono",monospace;font-size:.8rem;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:.25s}
+.load-more:hover{background:var(--grad);color:#fff;border-color:transparent}
+
+/* INFO */
+.info-strip{background:var(--c-ink);color:#fff;padding:4rem 1.5rem;display:grid;gap:2rem;grid-template-columns:1fr}
+@media(min-width:768px){.info-strip{grid-template-columns:repeat(3,1fr)}}
+.info-item h3{font-size:1.15rem;color:var(--c-aqua);font-weight:700;margin-bottom:.5rem}
+.info-item p{font-size:.92rem;color:var(--c-mist)}
+
+/* CTA */
+.cta-strip{background:var(--grad);color:#fff;padding:4.5rem 1.5rem;text-align:center}
+.cta-strip .section-label{color:rgba(255,255,255,.85)}
+.cta-strip h2{color:#fff;max-width:760px;margin:.75rem auto 1.75rem;font-size:clamp(1.6rem,3vw,2.75rem)}
+
+/* FOOTER */
+.site-footer{background:var(--c-ink);color:#fff;padding:4.5rem 1.5rem 2rem}
+.footer-nav-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-bottom:3rem}
+@media(min-width:768px){.footer-nav-grid{grid-template-columns:repeat(4,1fr)}}
+.footer-col h4{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--c-aqua);margin-bottom:1rem}
+.footer-col ul{list-style:none}
+.footer-col a{color:#fff;text-decoration:none;display:block;padding:.25rem 0;font-size:.92rem;opacity:.8;transition:.2s}
+.footer-col a:hover{opacity:1;color:var(--c-aqua)}
+.footer-brand{text-align:center;padding:3rem 0 1.5rem}
+.footer-brand img{width:min(90%,900px);margin:0 auto;opacity:.95}
+.footer-legal{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-top:1px solid rgba(255,255,255,.15);padding-top:1.5rem;font-family:"IBM Plex Mono",monospace;font-size:.72rem;opacity:.6}
+.footer-legal ul{display:flex;gap:1.5rem;list-style:none;flex-wrap:wrap}
+.footer-legal a{color:#fff;text-decoration:none}
+.ph{position:relative}
+.ph::before{content:"ФОТО";position:absolute;top:.5rem;right:.5rem;z-index:1;background:rgba(12,14,18,.7);color:#fff;font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.1em;padding:.2rem .45rem;border-radius:3px;pointer-events:none}
+@media(prefers-reduced-motion:reduce){.pcard{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <button class="nav-menu-btn" aria-label="Меню" id="menuOpen">
+    <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+    <span class="nav-menu-label">Меню</span>
+  </button>
+  <a href="index.html" class="site-logo" aria-label="Світскла Сервіс — головна"><img src="assets/logo-lockup.png" alt="Світскла Сервіс"></a>
+  <button class="nav-search-btn" aria-label="Пошук"><span class="nav-search-label">Пошук</span></button>
+</header>
+
+<nav class="nav-panel" id="navPanel" aria-label="Головне меню">
+  <button class="nav-panel__close" id="menuClose" aria-label="Закрити меню">✕</button>
+  <ul>
+    <li><a href="index.html">Головна</a></li>
+    <li><a href="catalog.html">Душові перегородки</a></li>
+    <li><a href="catalog.html">Шторки на ванну</a></li>
+    <li><a href="catalog.html">Скляні дзеркала</a></li>
+    <li><a href="catalog.html">Дзеркала з підсвіткою</a></li>
+    <li><a href="catalog.html">Дзеркала в рамах</a></li>
+    <li><a href="catalog.html">Скляні перила</a></li>
+    <li><a href="index.html#craft">Про нас</a></li>
+    <li><a href="index.html#contacts">Контакти</a></li>
+  </ul>
+  <div class="nav-panel__meta">+38 097 000 00 00<br>Пн–Пт 9:00–18:00<br>м. Київ · svitskla.ua</div>
+</nav>
+
+<main>
+  <section class="cat-hero">
+    <nav class="breadcrumb" aria-label="Навігація"><a href="index.html">Головна</a> / <a href="catalog.html">Каталог</a> / <span>Душові перегородки</span></nav>
+    <h1>Душові перегородки</h1>
+    <p class="lead">Виготовлення скляних душових перегородок за індивідуальними розмірами: розпашні, розсувні та безпрофільні. Загартоване скло, якісна фурнітура, монтаж під ключ.</p>
+  </section>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-chip active" data-filter="all">Усі</button>
+    <button class="filter-chip" data-filter="rozpashni">Розпашні</button>
+    <button class="filter-chip" data-filter="rozsuvni">Розсувні</button>
+    <button class="filter-chip" data-filter="bezprofil">Безпрофільні</button>
+    <button class="filter-chip" data-filter="matove">Матове скло</button>
+    <span class="filter-spacer"></span>
+    <select class="sort-select" id="sortSelect" aria-label="Сортування">
+      <option value="default">Сортувати: за замовчуванням</option>
+      <option value="price-asc">Ціна: спершу дешевші</option>
+      <option value="price-desc">Ціна: спершу дорожчі</option>
+    </select>
+  </div>
+
+  <section class="catalog">
+    <div class="catalog-grid" id="grid">
+      <!-- Картка товару (шаблон). Дублюйте та заповнюйте фото/назву/ціну/data-type/data-price. -->
+      <a href="#" class="pcard" data-type="rozpashni" data-price="16300">
+        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%2315C9EA%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%201%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Душова перегородка розпашна"><span class="pcard__badge">Хіт</span></div>
+        <div class="pcard__body"><h3 class="pcard__title">Душова перегородка розпашна</h3><p class="pcard__price">від <strong>16 300 грн</strong> з монтажем</p></div>
+      </a>
+      <a href="#" class="pcard" data-type="rozsuvni" data-price="24500">
+        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%2328A6DE%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%202%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Розсувна матова кабінка"></div>
+        <div class="pcard__body"><h3 class="pcard__title">Розсувна матова кабінка</h3><p class="pcard__price">від <strong>24 500 грн</strong> з монтажем</p></div>
+      </a>
+      <a href="#" class="pcard" data-type="bezprofil" data-price="28900">
+        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%232B323C%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%203%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="П'ятикутна душова кабіна"></div>
+        <div class="pcard__body"><h3 class="pcard__title">П'ятикутна душова кабіна</h3><p class="pcard__price">від <strong>28 900 грн</strong> з монтажем</p></div>
+      </a>
+      <a href="#" class="pcard" data-type="matove" data-price="22000">
+        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%234E54C6%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%204%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Перегородка, скло Діамант матоване"></div>
+        <div class="pcard__body"><h3 class="pcard__title">Перегородка, скло «Діамант» матоване</h3><p class="pcard__price">від <strong>22 000 грн</strong> з монтажем</p></div>
+      </a>
+      <a href="#" class="pcard" data-type="bezprofil" data-price="34000">
+        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%2315C9EA%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%205%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Безпрофільна перегородка"></div>
+        <div class="pcard__body"><h3 class="pcard__title">Безпрофільна перегородка</h3><p class="pcard__price">від <strong>34 000 грн</strong> з монтажем</p></div>
+      </a>
+      <a href="#" class="pcard" data-type="rozpashni" data-price="19500">
+        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%232B323C%27%2F%3E%3Ctext%20fill%3D%27%2328A6DE%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%206%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Перегородка в нішу"></div>
+        <div class="pcard__body"><h3 class="pcard__title">Перегородка в нішу</h3><p class="pcard__price">від <strong>19 500 грн</strong> з монтажем</p></div>
+      </a>
+      <a href="#" class="pcard" data-type="rozsuvni" data-price="26500">
+        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%207%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Розсувна кабіна, тоноване скло"></div>
+        <div class="pcard__body"><h3 class="pcard__title">Розсувна кабіна, тоноване скло</h3><p class="pcard__price">від <strong>26 500 грн</strong> з монтажем</p></div>
+      </a>
+      <a href="#" class="pcard" data-type="matove" data-price="23500">
+        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%234E54C6%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%208%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Кутова матова перегородка"></div>
+        <div class="pcard__body"><h3 class="pcard__title">Кутова матова перегородка</h3><p class="pcard__price">від <strong>23 500 грн</strong> з монтажем</p></div>
+      </a>
+    </div>
+    <button class="load-more" id="loadMore">Показати ще</button>
+  </section>
+
+  <section class="info-strip">
+    <div class="info-item"><h3>Безкоштовний прорахунок</h3><p>Залиште заявку — менеджер розрахує вартість у телефонному режимі.</p></div>
+    <div class="info-item"><h3>Точні заміри</h3><p>Майстер виїжджає на об'єкт після узгодження конструкції та ціни.</p></div>
+    <div class="info-item"><h3>Монтаж під ключ</h3><p>Виготовлення та встановлення чисто й надійно — від заміру до результату.</p></div>
+  </section>
+
+  <section class="cta-strip">
+    <p class="section-label">Безкоштовна консультація</p>
+    <h2>Розрахуємо вартість вашої перегородки</h2>
+    <a href="tel:+380970000000" class="btn btn--light">Зателефонувати: +38 097 000 00 00</a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-nav-grid">
+    <div class="footer-col"><h4>Продукція</h4><ul>
+      <li><a href="catalog.html">Душові перегородки</a></li>
+      <li><a href="catalog.html">Шторки на ванну</a></li>
+      <li><a href="catalog.html">Дзеркала</a></li>
+      <li><a href="catalog.html">Дзеркала з підсвіткою</a></li>
+      <li><a href="catalog.html">Скляні перила</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Підтримка</h4><ul>
+      <li><a href="#">Часті питання</a></li>
+      <li><a href="index.html#contacts">Контакти</a></li>
+      <li><a href="#">Гарантія</a></li>
+      <li><a href="#">Догляд за склом</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Компанія</h4><ul>
+      <li><a href="index.html#craft">Про нас</a></li>
+      <li><a href="#">Відео роботи</a></li>
+      <li><a href="https://www.instagram.com/svitskla_/" target="_blank" rel="noopener">Наші роботи</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Контакти</h4><ul>
+      <li><a href="tel:+380970000000">+38 097 000 00 00</a></li>
+      <li><a href="mailto:hello@svitskla.ua">hello@svitskla.ua</a></li>
+      <li><a href="https://www.instagram.com/svitskla_/" target="_blank" rel="noopener">Instagram ↗</a></li>
+      <li><a href="#">м. Київ</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-brand"><img src="assets/logo-white.png" alt="Світскла Сервіс"></div>
+  <div class="footer-legal">
+    <span>©2026 СВІТСКЛА СЕРВІС · м. Київ · svitskla.ua</span>
+    <ul><li><a href="#">Політика конфіденційності</a></li><li><a href="#">Умови використання</a></li></ul>
+  </div>
+</footer>
+
+<script>
+const panel=document.getElementById('navPanel');
+document.getElementById('menuOpen').addEventListener('click',()=>panel.classList.add('open'));
+document.getElementById('menuClose').addEventListener('click',()=>panel.classList.remove('open'));
+panel.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>panel.classList.remove('open')));
+
+const grid=document.getElementById('grid');
+const cards=Array.from(grid.children);
+document.querySelectorAll('.filter-chip').forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    const f=chip.dataset.filter;
+    cards.forEach(c=>{c.style.display=(f==='all'||c.dataset.type===f)?'':'none'});
+  });
+});
+document.getElementById('sortSelect').addEventListener('change',e=>{
+  const v=e.target.value;const sorted=[...cards];
+  if(v==='price-asc')sorted.sort((a,b)=>a.dataset.price-b.dataset.price);
+  if(v==='price-desc')sorted.sort((a,b)=>b.dataset.price-a.dataset.price);
+  sorted.forEach(c=>grid.appendChild(c));
+});
+document.getElementById('loadMore').addEventListener('click',function(){this.textContent='Усі товари показано';this.disabled=true;this.style.opacity=.6;});
+const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}})},{threshold:.1});
+cards.forEach(c=>io.observe(c));
+</script>
+</body>
+</html>
