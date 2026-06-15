@@ -126,46 +126,29 @@ p{font-size:1rem;line-height:1.65}
 <nav class="nav-panel" id="navPanel" aria-label="Головне меню">
   <button class="nav-panel__close" id="menuClose" aria-label="Закрити меню">✕</button>
   <ul>
-    <li><a href="catalog.html">Душові кабіни та перегородки</a></li>
-    <li><a href="catalog.html">Шторки на ванну</a></li>
-    <li><a href="catalog.html">Дзеркала</a></li>
-    <li><a href="catalog.html">Перегородки та двері</a></li>
-    <li><a href="catalog.html">Перила</a></li>
-    <li><a href="catalog.html">Кухонні фартуки</a></li>
-    <li><a href="catalog.html">Фотодрук та фарбування</a></li>
-    <li><a href="catalog.html">Інше</a></li>
+    <li><a href="catalog.html?cat=dushovi">Душові кабіни та перегородки</a></li>
+    <li><a href="catalog.html?cat=shtorky">Шторки на ванну</a></li>
+    <li><a href="catalog.html?cat=dzerkala">Дзеркала</a></li>
+    <li><a href="catalog.html?cat=peregorodky">Перегородки та двері</a></li>
+    <li><a href="catalog.html?cat=peryla">Перила</a></li>
+    <li><a href="catalog.html?cat=fartuky">Кухонні фартуки</a></li>
+    <li><a href="catalog.html?cat=fotodruk">Фотодрук та фарбування</a></li>
+    <li><a href="catalog.html?cat=inshe">Інше</a></li>
   </ul>
   <div class="nav-panel__meta">+38 098 130 63 96<br>Пн–Пт 9:00–18:00<br>м. Київ · svitskla.ua</div>
 </nav>
 
 <main>
   <section class="cat-hero">
-    <nav class="breadcrumb" aria-label="Навігація"><a href="index.html">Головна</a> / <a href="catalog.html">Каталог</a> / <span>Душові перегородки</span></nav>
-    <h1>Душові перегородки</h1>
-    <p class="lead">Виготовлення скляних душових перегородок за індивідуальними розмірами: розпашні, розсувні та безпрофільні. Загартоване скло, якісна фурнітура, монтаж під ключ.</p>
+    <nav class="breadcrumb" aria-label="Навігація"><a href="index.html">Головна</a> / <a href="catalog.html">Каталог</a> / <span id="crumbCat"></span></nav>
+    <h1 id="catTitle"></h1>
+    <p class="lead" id="catLead"></p>
   </section>
 
-  <div class="filter-bar" id="filterBar">
-    <button class="filter-chip active" data-filter="all">Усі</button>
-    <button class="filter-chip" data-filter="rozpashni">Розпашні</button>
-    <button class="filter-chip" data-filter="rozsuvni">Розсувні</button>
-    <button class="filter-chip" data-filter="statsionarni">Стаціонарні</button>
-    <button class="filter-chip" data-filter="slider">Slider</button>
-  </div>
+  <div class="filter-bar" id="filterBar"></div>
 
   <section class="catalog">
-    <div class="catalog-grid" id="grid">
-      <a href="#" class="pcard" data-type="rozpashni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%2315C9EA%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%201%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Душова перегородка розпашна"></div></a>
-      <a href="#" class="pcard" data-type="rozsuvni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%2328A6DE%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%202%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Розсувна матова кабінка"></div></a>
-      <a href="#" class="pcard" data-type="statsionarni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%232B323C%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%203%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="П'ятикутна душова кабіна"></div></a>
-      <a href="#" class="pcard" data-type="slider"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%234E54C6%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%204%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Перегородка, скло Діамант матоване"></div></a>
-      <a href="#" class="pcard" data-type="statsionarni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%2315C9EA%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%205%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Безпрофільна перегородка"></div></a>
-      <a href="#" class="pcard" data-type="rozpashni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%232B323C%27%2F%3E%3Ctext%20fill%3D%27%2328A6DE%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%206%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Перегородка в нішу"></div></a>
-      <a href="#" class="pcard" data-type="rozsuvni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%207%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Розсувна кабіна, тоноване скло"></div></a>
-      <a href="#" class="pcard" data-type="slider"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%234E54C6%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%208%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Кутова матова перегородка"></div></a>
-    
-    </div>
-    <button class="load-more" id="loadMore">Показати ще</button>
+    <div class="catalog-grid" id="grid"></div>
   </section>
 
   <section class="info-strip">
@@ -185,8 +168,8 @@ p{font-size:1rem;line-height:1.65}
   <div class="footer-nav-grid">
     <div class="footer-col"><h4>Продукція</h4><ul>
       <li><a href="catalog.html">Душові перегородки</a></li>
-      <li><a href="catalog.html">Шторки на ванну</a></li>
-      <li><a href="catalog.html">Дзеркала</a></li>
+      <li><a href="catalog.html?cat=shtorky">Шторки на ванну</a></li>
+      <li><a href="catalog.html?cat=dzerkala">Дзеркала</a></li>
       <li><a href="catalog.html">Дзеркала з підсвіткою</a></li>
       <li><a href="catalog.html">Скляні перила</a></li>
     </ul></div>
@@ -221,19 +204,45 @@ document.getElementById('menuOpen').addEventListener('click',()=>panel.classList
 document.getElementById('menuClose').addEventListener('click',()=>panel.classList.remove('open'));
 panel.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>panel.classList.remove('open')));
 
+const CATS={
+  dushovi:{title:"Душові кабіни та перегородки",lead:"Виготовлення скляних душових перегородок за індивідуальними розмірами. Загартоване скло, якісна фурнітура, монтаж під ключ.",filters:[["rozpashni","Розпашні"],["rozsuvni","Розсувні"],["statsionarni","Стаціонарні"],["slider","Slider"]]},
+  shtorky:{title:"Шторки на ванну",lead:"Скляні шторки на ванну за вашими розмірами — стаціонарні та розсувні. Загартоване скло й надійна фурнітура.",filters:[["statsionarni","Стаціонарні"],["rozsuvni","Розсувні"]]},
+  dzerkala:{title:"Дзеркала",lead:"Дзеркала на замовлення: з LED-підсвіткою, у рамах та дзеркальні панно. Будь-які форми й розміри.",filters:[["pidsvitka","Дзеркала з підсвіткою"],["rama","Дзеркала в рамах"],["panno","Дзеркальне панно"]]},
+  peregorodky:{title:"Перегородки та двері",lead:"Скляні перегородки та двері для дому й офісу — стильні й функціональні рішення зі скла.",filters:[]},
+  peryla:{title:"Перила",lead:"Скляні перила та огородження для сходів, балконів і терас із загартованого скла.",filters:[]},
+  fartuky:{title:"Кухонні фартуки",lead:"Скляні кухонні фартуки (скіналі) — практичні та ефектні, з фотодруком або однотонні.",filters:[]},
+  fotodruk:{title:"Фотодрук та фарбування",lead:"Фотодрук на склі та фарбування скла — індивідуальні рішення для вашого інтер'єру.",filters:[]},
+  inshe:{title:"Інше",lead:"Інші вироби зі скла на замовлення. Напишіть нам — підберемо рішення під ваш запит.",filters:[]}
+};
+const PAL=[["0C0E12","15C9EA"],["191D24","28A6DE"],["2B323C","3A80D2"],["0C0E12","4E54C6"]];
+function ph(i){var p=PAL[i%PAL.length];return "data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='720' height='1280' viewBox='0 0 720 1280'><rect width='100%' height='100%' fill='#"+p[0]+"'/><text x='50%' y='50%' fill='#"+p[1]+"' font-family='Manrope,Arial,sans-serif' font-size='54' font-weight='700' text-anchor='middle' dominant-baseline='middle'>ФОТО</text></svg>");}
+
+const key=(new URLSearchParams(location.search).get('cat'))||'dushovi';
+const cat=CATS[key]||CATS.dushovi;
+document.getElementById('catTitle').textContent=cat.title;
+document.getElementById('catLead').textContent=cat.lead;
+document.getElementById('crumbCat').textContent=cat.title;
+document.title=cat.title+" — каталог | Світскла Сервіс";
+
+const fb=document.getElementById('filterBar');
+let chips=[["all","Усі"]];
+if(cat.filters&&cat.filters.length)chips=chips.concat(cat.filters);
+if(chips.length>1){fb.innerHTML=chips.map(function(c,i){return '<button class="filter-chip'+(i===0?' active':'')+'" data-filter="'+c[0]+'">'+c[1]+'</button>';}).join('');}
+else{fb.style.display='none';}
+
 const grid=document.getElementById('grid');
-const cards=Array.from(grid.children);
-document.querySelectorAll('.filter-chip').forEach(chip=>{
-  chip.addEventListener('click',()=>{
-    document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+const types=(cat.filters&&cat.filters.length)?cat.filters.map(function(f){return f[0];}):['item'];
+var html='';for(var i=0;i<8;i++){var t=types[i%types.length];html+='<a href="#" class="pcard" data-type="'+t+'"><div class="pcard__media ph"><img src="'+ph(i)+'" alt="Фото"></div></a>';}
+grid.innerHTML=html;
+
+document.querySelectorAll('.filter-chip').forEach(function(chip){
+  chip.addEventListener('click',function(){
+    document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active');});
     chip.classList.add('active');
-    const f=chip.dataset.filter;
-    cards.forEach(c=>{c.style.display=(f==='all'||c.dataset.type===f)?'':'none'});
+    var f=chip.dataset.filter;
+    Array.from(grid.children).forEach(function(c){c.style.display=(f==='all'||c.dataset.type===f)?'':'none';});
   });
 });
-document.getElementById('loadMore').addEventListener('click',function(){this.textContent='Усі товари показано';this.disabled=true;this.style.opacity=.6;});
-const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}})},{threshold:.1});
-cards.forEach(c=>io.observe(c));
 </script>
 </body>
 </html>
