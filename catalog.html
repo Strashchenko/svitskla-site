@@ -149,51 +149,21 @@ p{font-size:1rem;line-height:1.65}
     <button class="filter-chip active" data-filter="all">Усі</button>
     <button class="filter-chip" data-filter="rozpashni">Розпашні</button>
     <button class="filter-chip" data-filter="rozsuvni">Розсувні</button>
-    <button class="filter-chip" data-filter="bezprofil">Безпрофільні</button>
-    <button class="filter-chip" data-filter="matove">Матове скло</button>
-    <span class="filter-spacer"></span>
-    <select class="sort-select" id="sortSelect" aria-label="Сортування">
-      <option value="default">Сортувати: за замовчуванням</option>
-      <option value="price-asc">Ціна: спершу дешевші</option>
-      <option value="price-desc">Ціна: спершу дорожчі</option>
-    </select>
+    <button class="filter-chip" data-filter="statsionarni">Стаціонарні</button>
+    <button class="filter-chip" data-filter="slider">Slider</button>
   </div>
 
   <section class="catalog">
     <div class="catalog-grid" id="grid">
-      <!-- Картка товару (шаблон). Дублюйте та заповнюйте фото/назву/ціну/data-type/data-price. -->
-      <a href="#" class="pcard" data-type="rozpashni" data-price="16300">
-        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%2315C9EA%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%201%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Душова перегородка розпашна"><span class="pcard__badge">Хіт</span></div>
-        <div class="pcard__body"><h3 class="pcard__title">Душова перегородка розпашна</h3><p class="pcard__price">від <strong>16 300 грн</strong> з монтажем</p></div>
-      </a>
-      <a href="#" class="pcard" data-type="rozsuvni" data-price="24500">
-        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%2328A6DE%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%202%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Розсувна матова кабінка"></div>
-        <div class="pcard__body"><h3 class="pcard__title">Розсувна матова кабінка</h3><p class="pcard__price">від <strong>24 500 грн</strong> з монтажем</p></div>
-      </a>
-      <a href="#" class="pcard" data-type="bezprofil" data-price="28900">
-        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%232B323C%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%203%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="П'ятикутна душова кабіна"></div>
-        <div class="pcard__body"><h3 class="pcard__title">П'ятикутна душова кабіна</h3><p class="pcard__price">від <strong>28 900 грн</strong> з монтажем</p></div>
-      </a>
-      <a href="#" class="pcard" data-type="matove" data-price="22000">
-        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%234E54C6%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%204%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Перегородка, скло Діамант матоване"></div>
-        <div class="pcard__body"><h3 class="pcard__title">Перегородка, скло «Діамант» матоване</h3><p class="pcard__price">від <strong>22 000 грн</strong> з монтажем</p></div>
-      </a>
-      <a href="#" class="pcard" data-type="bezprofil" data-price="34000">
-        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%2315C9EA%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%205%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Безпрофільна перегородка"></div>
-        <div class="pcard__body"><h3 class="pcard__title">Безпрофільна перегородка</h3><p class="pcard__price">від <strong>34 000 грн</strong> з монтажем</p></div>
-      </a>
-      <a href="#" class="pcard" data-type="rozpashni" data-price="19500">
-        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%232B323C%27%2F%3E%3Ctext%20fill%3D%27%2328A6DE%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%206%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Перегородка в нішу"></div>
-        <div class="pcard__body"><h3 class="pcard__title">Перегородка в нішу</h3><p class="pcard__price">від <strong>19 500 грн</strong> з монтажем</p></div>
-      </a>
-      <a href="#" class="pcard" data-type="rozsuvni" data-price="26500">
-        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%207%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Розсувна кабіна, тоноване скло"></div>
-        <div class="pcard__body"><h3 class="pcard__title">Розсувна кабіна, тоноване скло</h3><p class="pcard__price">від <strong>26 500 грн</strong> з монтажем</p></div>
-      </a>
-      <a href="#" class="pcard" data-type="matove" data-price="23500">
-        <div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%234E54C6%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%208%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Кутова матова перегородка"></div>
-        <div class="pcard__body"><h3 class="pcard__title">Кутова матова перегородка</h3><p class="pcard__price">від <strong>23 500 грн</strong> з монтажем</p></div>
-      </a>
+      <a href="#" class="pcard" data-type="rozpashni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%2315C9EA%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%201%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Душова перегородка розпашна"></div></a>
+      <a href="#" class="pcard" data-type="rozsuvni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%2328A6DE%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%202%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Розсувна матова кабінка"></div></a>
+      <a href="#" class="pcard" data-type="statsionarni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%232B323C%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%203%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="П'ятикутна душова кабіна"></div></a>
+      <a href="#" class="pcard" data-type="slider"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%234E54C6%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%204%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Перегородка, скло Діамант матоване"></div></a>
+      <a href="#" class="pcard" data-type="statsionarni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%2315C9EA%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%205%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Безпрофільна перегородка"></div></a>
+      <a href="#" class="pcard" data-type="rozpashni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%232B323C%27%2F%3E%3Ctext%20fill%3D%27%2328A6DE%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%206%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Перегородка в нішу"></div></a>
+      <a href="#" class="pcard" data-type="rozsuvni"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%207%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Розсувна кабіна, тоноване скло"></div></a>
+      <a href="#" class="pcard" data-type="slider"><div class="pcard__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%234E54C6%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A2%D0%BE%D0%B2%D0%B0%D1%80%208%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Кутова матова перегородка"></div></a>
+    
     </div>
     <button class="load-more" id="loadMore">Показати ще</button>
   </section>
@@ -260,12 +230,6 @@ document.querySelectorAll('.filter-chip').forEach(chip=>{
     const f=chip.dataset.filter;
     cards.forEach(c=>{c.style.display=(f==='all'||c.dataset.type===f)?'':'none'});
   });
-});
-document.getElementById('sortSelect').addEventListener('change',e=>{
-  const v=e.target.value;const sorted=[...cards];
-  if(v==='price-asc')sorted.sort((a,b)=>a.dataset.price-b.dataset.price);
-  if(v==='price-desc')sorted.sort((a,b)=>b.dataset.price-a.dataset.price);
-  sorted.forEach(c=>grid.appendChild(c));
 });
 document.getElementById('loadMore').addEventListener('click',function(){this.textContent='Усі товари показано';this.disabled=true;this.style.opacity=.6;});
 const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}})},{threshold:.1});
