@@ -182,8 +182,12 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 .pay-section{padding:6rem 1.5rem;background:var(--bg-white)}
 .pay-section .section-label{display:block;max-width:1200px;margin:0 auto}
 .pay-section h2{max-width:1200px;margin:.5rem auto 2.5rem;font-size:clamp(1.8rem,3.5vw,3rem)}
-.combo-section{display:grid;grid-template-columns:1fr;gap:3rem;max-width:1200px;margin:0 auto;padding:6rem 1.5rem;background:var(--bg-white)}
-@media(min-width:768px){.combo-section{grid-template-columns:1fr 1fr;align-items:start}}
+.combo-section{display:grid;grid-template-columns:1fr;grid-template-areas:"hp" "mp" "hi" "mi";column-gap:3rem;max-width:1200px;margin:0 auto;padding:6rem 1.5rem;background:var(--bg-white)}
+@media(min-width:768px){.combo-section{grid-template-columns:1fr 1fr;grid-template-areas:"hp hi" "mp mi";align-items:start}}
+.combo-head--pay{grid-area:hp}
+.combo-head--insp{grid-area:hi}
+.combo-pay{grid-area:mp}
+.combo-videos{grid-area:mi}
 .combo-section h2{font-size:clamp(1.7rem,3vw,2.8rem);margin:.5rem 0 1.75rem}
 .combo-pay{display:flex;flex-direction:column;gap:1.25rem;max-width:380px}
 .combo-pay img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
@@ -459,10 +463,11 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 
   <!-- ============================ 5. PAY + INSPIRATION ============================ -->
   <section class="combo-section">
-    <div class="combo-left">
+    <div class="combo-head combo-head--pay">
       <p class="section-label">Зручна оплата</p>
       <h2>Розстрочка та державні програми</h2>
-      <div class="combo-pay">
+    </div>
+    <div class="combo-pay">
         <figure>
           <img src="assets/pay-privatbank.png" alt="Розстрочка від ПриватБанку — оплата частинами">
           <figcaption>Розстрочка від ПриватБанку до 3 місяців</figcaption>
@@ -472,11 +477,11 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
           <figcaption>Працюємо за програмою «єВідновлення»</figcaption>
         </figure>
       </div>
-    </div>
-    <div class="combo-right">
+    <div class="combo-head combo-head--insp">
       <p class="section-label">Натхнення</p>
       <h2>Наші виконані роботи</h2>
-      <div class="combo-videos">
+    </div>
+    <div class="combo-videos">
         <div class="vid-item">
           <a class="vid-frame" href="https://www.tiktok.com/@svitskla" target="_blank" rel="noopener" aria-label="Дивитись у TikTok"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ccircle%20cx%3D%27360%27%20cy%3D%27560%27%20r%3D%2780%27%20fill%3D%27none%27%20stroke%3D%27%2315C9EA%27%20stroke-width%3D%276%27%2F%3E%3Cpath%20d%3D%27M338%20522%20L398%20560%20L338%20598%20Z%27%20fill%3D%27%2315C9EA%27%2F%3E%3Ctext%20x%3D%2750%25%27%20y%3D%27720%27%20fill%3D%27%2315C9EA%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2746%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%D0%92%D0%86%D0%94%D0%95%D0%9E%20%C2%B7%20TikTok%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Відео в TikTok"></a>
           <a class="btn btn--ghost" href="https://www.tiktok.com/@svitskla" target="_blank" rel="noopener">Дивитись у TikTok</a>
@@ -486,7 +491,6 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
           <a class="btn btn--ghost" href="https://www.instagram.com/svitskla_/" target="_blank" rel="noopener">Дивитись в Instagram</a>
         </div>
       </div>
-    </div>
   </section>
 
   <!-- ============================ 6. OUR CRAFT ============================ -->
