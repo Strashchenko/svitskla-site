@@ -187,6 +187,8 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 .combo-section h2{font-size:clamp(1.7rem,3vw,2.8rem);margin:.5rem 0 1.75rem}
 .combo-pay{display:flex;flex-direction:column;gap:1.25rem}
 .combo-pay img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
+.combo-pay figure{margin:0}
+.combo-pay figcaption{margin-top:.6rem;font-weight:700;color:var(--text-dark);font-size:1.05rem;line-height:1.4}
 .combo-btns{display:flex;flex-direction:column;gap:1rem;align-items:flex-start;margin-top:.5rem}
 .pay-grid{display:grid;grid-template-columns:1fr;gap:2rem;max-width:1200px;margin:0 auto}
 @media(min-width:768px){.pay-grid{grid-template-columns:1fr 1fr}}
@@ -455,8 +457,14 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
       <p class="section-label">Зручна оплата</p>
       <h2>Розстрочка та державні програми</h2>
       <div class="combo-pay">
-        <img src="assets/pay-privatbank.png" alt="Розстрочка від ПриватБанку — оплата частинами">
-        <img src="assets/pay-evidnovlennia.png" alt="Працюємо за програмою єВідновлення">
+        <figure>
+          <img src="assets/pay-privatbank.png" alt="Розстрочка від ПриватБанку — оплата частинами">
+          <figcaption>Розстрочка від ПриватБанку до 3 місяців</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/pay-evidnovlennia.png" alt="Працюємо за програмою єВідновлення">
+          <figcaption>Працюємо за програмою «єВідновлення»</figcaption>
+        </figure>
       </div>
     </div>
     <div class="combo-right">
