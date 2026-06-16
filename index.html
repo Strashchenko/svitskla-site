@@ -160,19 +160,6 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 .craft-card__body h3{font-family:"IBM Plex Mono",monospace;font-size:1.05rem;font-weight:500;color:var(--c-aqua)}
 .craft-card__desc{font-size:.92rem;color:var(--c-mist);margin-top:.4rem;line-height:1.55}
 
-/* ============================ RESOURCES ============================ */
-.resources-section{padding:6rem 1.5rem;background:var(--bg-soft)}
-.resources-header{display:flex;justify-content:space-between;align-items:baseline;max-width:1200px;margin:0 auto 2rem;gap:1rem;flex-wrap:wrap}
-.resources-grid{display:grid;grid-template-columns:1fr;gap:2rem;max-width:1200px;margin:0 auto}
-@media(min-width:768px){.resources-grid{grid-template-columns:repeat(4,1fr)}}
-.resource-card a{text-decoration:none;display:block}
-.resource-card__media{aspect-ratio:9/16;overflow:hidden;border-radius:4px;background:#fff}
-.resource-card__media img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.resource-card:hover .resource-card__media img{transform:scale(1.05)}
-.resource-card__body{padding-top:.85rem;color:var(--text-dark)}
-.resource-card__body h3{font-size:1.1rem;font-weight:700;display:flex;justify-content:space-between;align-items:center}
-.resource-card__body p{font-size:.9rem;color:var(--text-muted);margin-top:.3rem}
-
 /* ============================ CTA ============================ */
 .cta-strip{background:var(--grad);color:#fff;padding:4.5rem 1.5rem;text-align:center}
 .cta-strip .section-label{color:rgba(255,255,255,.85)}
@@ -513,32 +500,6 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
       <article class="craft-card">
         <a href="#contacts"><div class="craft-card__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A4%D0%9E%D0%A2%D0%9E%20%3A%20%D0%92%D1%96%D0%B4%D0%B3%D1%83%D0%BA%D0%B8%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Відгуки клієнтів"></div>
         <div class="craft-card__body"><h3>Відгуки клієнтів</h3><p class="craft-card__desc">Реальні історії та результати клієнтів — про якість, терміни та сервіс.</p></div></a>
-      </article>
-    </div>
-  </section>
-
-  <!-- ============================ 8. RESOURCES ============================ -->
-  <section class="resources-section">
-    <div class="resources-header">
-      <h2>Корисне</h2>
-      <a href="#contacts" class="link-arrow">Усі матеріали <span aria-hidden="true">→</span></a>
-    </div>
-    <div class="resources-grid">
-      <article class="resource-card">
-        <a href="#"><div class="resource-card__media ph ph--video"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%2315C9EA%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%92%D0%86%D0%94%D0%95%D0%9E%20%D1%80%D0%BE%D0%B1%D0%BE%D1%82%D0%B8%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Відео робіт"></div>
-        <div class="resource-card__body"><h3>Відео робіт <span aria-hidden="true">→</span></h3><p>Наші проєкти в реальних інтер'єрах.</p></div></a>
-      </article>
-      <article class="resource-card">
-        <a href="#"><div class="resource-card__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%2328A6DE%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%95%D1%82%D0%B0%D0%BF%D0%B8%20%D1%80%D0%BE%D0%B1%D0%BE%D1%82%D0%B8%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Етапи роботи"></div>
-        <div class="resource-card__body"><h3>Етапи роботи <span aria-hidden="true">→</span></h3><p>Від заявки до монтажу — прозоро та зрозуміло.</p></div></a>
-      </article>
-      <article class="resource-card">
-        <a href="#"><div class="resource-card__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%232B323C%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A7%D0%B0%D1%81%D1%82%D1%96%20%D0%BF%D0%B8%D1%82%D0%B0%D0%BD%D0%BD%D1%8F%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Часті питання"></div>
-        <div class="resource-card__body"><h3>Часті питання <span aria-hidden="true">→</span></h3><p>Терміни, оплата, гарантія та догляд за склом.</p></div></a>
-      </article>
-      <article class="resource-card">
-        <a href="#"><div class="resource-card__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%234E54C6%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%92%D1%96%D0%B4%D0%B3%D1%83%D0%BA%D0%B8%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Відгуки клієнтів"></div>
-        <div class="resource-card__body"><h3>Відгуки клієнтів <span aria-hidden="true">→</span></h3><p>Реальні історії та результати наших клієнтів.</p></div></a>
       </article>
     </div>
   </section>
