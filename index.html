@@ -218,15 +218,16 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 .lead-form__done p{color:var(--text-muted)}
 
 /* ============================ MAP ============================ */
-.map-section{display:grid;grid-template-columns:1fr;background:var(--c-ink);color:#fff}
-@media(min-width:768px){.map-section{grid-template-columns:1fr 1fr}}
-.map-info{padding:4rem 1.5rem;display:flex;flex-direction:column;justify-content:center;gap:.4rem}
+.map-section{background:var(--c-ink);color:#fff;padding:0 1.5rem}
+.map-inner{display:grid;grid-template-columns:1fr;max-width:1200px;margin:0 auto}
+@media(min-width:768px){.map-inner{grid-template-columns:1fr 1fr;gap:2.5rem}}
+.map-info{padding:4rem 0;display:flex;flex-direction:column;justify-content:space-between;gap:1.5rem}
 .map-info .section-label{color:var(--c-aqua)}
 .map-info h2{color:#fff;margin:.3rem 0 .6rem}
-.map-address{color:var(--c-mist);line-height:1.8;margin-bottom:.8rem}
-.map-info .link-arrow{color:#fff}
-.map-embed{min-height:340px}
-.map-embed iframe{width:100%;height:100%;min-height:340px;border:0;display:block}
+.map-address{color:var(--c-mist);line-height:1.8}
+.map-phone{display:flex;justify-content:space-between;align-items:center;color:#fff;text-decoration:none;font-family:"IBM Plex Mono",monospace;font-size:.95rem;letter-spacing:.05em;border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:1rem}
+.map-embed{min-height:340px;padding:4rem 0}
+.map-embed iframe{width:100%;height:100%;min-height:340px;border:0;display:block;border-radius:8px}
 
 /* ============================ FLOATING CONTACTS ============================ */
 .float-contacts{position:fixed;right:1rem;bottom:1rem;z-index:95;display:flex;flex-direction:column;gap:.65rem}
@@ -555,14 +556,18 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 
   <!-- ============================ MAP ============================ -->
   <section class="map-section" id="map">
-    <div class="map-info">
-      <p class="section-label">Як до нас доїхати</p>
-      <h2>Завітайте до нашого офісу</h2>
-      <p class="map-address">м. Київ, вул. Якова Гніздовського, 1Е<br>Пн–Пт: 9:00–18:00 · Сб: 10:00–15:00</p>
-      <a href="tel:+380981306396" class="link-arrow">+38 098 130 63 96 <span aria-hidden="true">→</span></a>
-    </div>
-    <div class="map-embed">
+    <div class="map-inner">
+      <div class="map-info">
+        <div class="map-info__top">
+          <p class="section-label">Як до нас доїхати</p>
+          <h2>Завітайте до нашого офісу</h2>
+          <p class="map-address">м. Київ, вул. Якова Гніздовського, 1Е<br>Пн–Пт: 9:00–18:00 · Сб: 10:00–15:00</p>
+        </div>
+        <a href="tel:+380981306396" class="map-phone">+38 098 130 63 96 <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="map-embed">
       <iframe src="https://www.google.com/maps?q=%D0%9A%D0%B8%D1%97%D0%B2%2C%20%D0%B2%D1%83%D0%BB%D0%B8%D1%86%D1%8F%20%D0%AF%D0%BA%D0%BE%D0%B2%D0%B0%20%D0%93%D0%BD%D1%96%D0%B7%D0%B4%D0%BE%D0%B2%D1%81%D1%8C%D0%BA%D0%BE%D0%B3%D0%BE%201%D0%95&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Карта проїзду до СВІТСКЛА СЕРВІС"></iframe>
+      </div>
     </div>
   </section>
 
