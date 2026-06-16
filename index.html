@@ -182,6 +182,12 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 .pay-section{padding:6rem 1.5rem;background:var(--bg-white)}
 .pay-section .section-label{display:block;max-width:1200px;margin:0 auto}
 .pay-section h2{max-width:1200px;margin:.5rem auto 2.5rem;font-size:clamp(1.8rem,3.5vw,3rem)}
+.combo-section{display:grid;grid-template-columns:1fr;gap:3rem;max-width:1200px;margin:0 auto;padding:6rem 1.5rem;background:var(--bg-white)}
+@media(min-width:768px){.combo-section{grid-template-columns:1fr 1fr;align-items:start}}
+.combo-section h2{font-size:clamp(1.7rem,3vw,2.8rem);margin:.5rem 0 1.75rem}
+.combo-pay{display:flex;flex-direction:column;gap:1.25rem}
+.combo-pay img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
+.combo-btns{display:flex;flex-direction:column;gap:1rem;align-items:flex-start;margin-top:.5rem}
 .pay-grid{display:grid;grid-template-columns:1fr;gap:2rem;max-width:1200px;margin:0 auto}
 @media(min-width:768px){.pay-grid{grid-template-columns:1fr 1fr}}
 .pay-card{background:var(--bg-soft);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
@@ -443,37 +449,23 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
     </div>
   </section>
 
-  <!-- ============================ 5. INSPIRATION ============================ -->
-  <section class="inspiration-section">
-    <div class="inspiration-header">
+  <!-- ============================ 5. PAY + INSPIRATION ============================ -->
+  <section class="combo-section">
+    <div class="combo-left">
+      <p class="section-label">Зручна оплата</p>
+      <h2>Розстрочка та державні програми</h2>
+      <div class="combo-pay">
+        <img src="assets/pay-privatbank.png" alt="Розстрочка від ПриватБанку — оплата частинами">
+        <img src="assets/pay-evidnovlennia.png" alt="Працюємо за програмою єВідновлення">
+      </div>
+    </div>
+    <div class="combo-right">
       <p class="section-label">Натхнення</p>
       <h2>Наші виконані роботи</h2>
-      <a class="btn btn--ghost" href="https://www.instagram.com/svitskla_/" target="_blank" rel="noopener">Дивитись в Instagram</a>
-      <a class="btn btn--ghost" href="https://www.tiktok.com/@svitskla" target="_blank" rel="noopener">Дивитись у TikTok</a>
-    </div>
-  </section>
-
-  <!-- ============================ PAYMENT / PROGRAMS ============================ -->
-  <section class="pay-section">
-    <p class="section-label">Зручна оплата</p>
-    <h2>Розстрочка та державні програми</h2>
-    <div class="pay-grid">
-      <article class="pay-card">
-        <div class="pay-card__media"><img src="assets/pay-privatbank.png" alt="Розстрочка від ПриватБанку — оплата частинами"></div>
-        <div class="pay-card__body">
-          <p class="pay-card__tag">Оплата частинами</p>
-          <h3>Розстрочка від ПриватБанку до 3 місяців</h3>
-          <p>Оформлюйте замовлення в розстрочку до 3 місяців — зручно розподіліть оплату на ваш виріб зі скла без зайвих турбот.</p>
-        </div>
-      </article>
-      <article class="pay-card">
-        <div class="pay-card__media"><img src="assets/pay-evidnovlennia.png" alt="Працюємо за програмою єВідновлення"></div>
-        <div class="pay-card__body">
-          <p class="pay-card__tag">Державна програма</p>
-          <h3>Працюємо за програмою «єВідновлення»</h3>
-          <p>Виконуємо замовлення в межах державної програми «єВідновлення» — допоможемо відновити скляні елементи у вашому житлі за компенсацією від держави.</p>
-        </div>
-      </article>
+      <div class="combo-btns">
+        <a class="btn btn--ghost" href="https://www.tiktok.com/@svitskla" target="_blank" rel="noopener">Дивитись у TikTok</a>
+        <a class="btn btn--ghost" href="https://www.instagram.com/svitskla_/" target="_blank" rel="noopener">Дивитись в Instagram</a>
+      </div>
     </div>
   </section>
 
