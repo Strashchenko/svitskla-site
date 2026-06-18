@@ -97,7 +97,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script>
-const sb = supabase.createClient(window.SB_URL, window.SB_KEY);
+const sb = supabase.createClient(window.SB_URL, window.SB_KEY, { auth:{ persistSession:true, autoRefreshToken:true } });
+let db = sb;
+function setDb(token){ db = supabase.createClient(window.SB_URL, window.SB_KEY, { global:{ headers:{ Authorization:'Bearer '+token } }, auth:{ persistSession:false, autoRefreshToken:false } }); }
 
 /* ---- Поля текстів ---- */
 const FIELDS = [
@@ -160,12 +162,13 @@ const $ = function(s){return document.querySelector(s);};
 /* ---------- AUTH ---------- */
 async function init(){
   const { data } = await sb.auth.getSession();
-  if(data.session){ showApp(); } else { $('#login').style.display='block'; $('#app').style.display='none'; }
+  if(data.session){ setDb(data.session.access_token); showApp(); } else { $('#login').style.display='block'; $('#app').style.display='none'; }
 }
 $('#loginBtn').onclick = async function(){
   $('#loginErr').textContent='';
-  const { error } = await sb.auth.signInWithPassword({ email:$('#email').value.trim(), password:$('#password').value });
+  const { data, error } = await sb.auth.signInWithPassword({ email:$('#email').value.trim(), password:$('#password').value });
   if(error){ $('#loginErr').textContent='Невірний email або пароль.'; return; }
+  setDb(data.session.access_token);
   showApp();
 };
 $('#password').addEventListener('keydown',e=>{ if(e.key==='Enter') $('#loginBtn').click(); });
@@ -200,14 +203,14 @@ function buildFields(){
   });
 }
 async function loadTexts(){
-  const { data } = await sb.from('site_content').select('key,value');
+  const { data } = await db.from('site_content').select('key,value');
   const map={}; (data||[]).forEach(r=>map[r.key]=r.value);
   FIELDS.forEach(f=>{ if(f.k){ const el=$('#f_'+f.k); if(el) el.value = map[f.k]!=null?map[f.k]:''; } });
 }
 $('#saveAll').onclick = async function(){
   $('#textsStatus').textContent='Збереження…';
   const rows = FIELDS.filter(f=>f.k).map(f=>({ key:f.k, value:$('#f_'+f.k).value, updated_at:new Date().toISOString() }));
-  const { error } = await sb.from('site_content').upsert(rows, { onConflict:'key' });
+  const { error } = await db.from('site_content').upsert(rows, { onConflict:'key' });
   $('#textsStatus').textContent = error? ('Помилка: '+error.message) : 'Збережено ✓';
   setTimeout(()=>{$('#textsStatus').textContent='';},2500);
 };
@@ -244,7 +247,7 @@ function renderAddArea(){
 async function renderMedia(){
   renderAddArea();
   const s=curSection(); const list=$('#mediaList'); list.innerHTML='Завантаження…';
-  const { data } = await sb.from('gallery').select('*').eq('section', s.id).order('position',{ascending:true});
+  const { data } = await db.from('gallery').select('*').eq('section', s.id).order('position',{ascending:true});
   list.innerHTML='';
   if(!data || !data.length){ list.innerHTML='<div class="hint">Поки що порожньо. Додайте фото або відео вище.</div>'; return; }
   data.forEach((it,i)=>{
@@ -266,14 +269,14 @@ async function addPhotos(){
   const s=curSection(); const files=$('#photoInput').files; if(!files.length){return;}
   const sub = $('#subSel') ? $('#subSel').value : null;
   $('#mediaStatus').textContent='Завантаження…';
-  const { data:maxRows } = await sb.from('gallery').select('position').eq('section',s.id).order('position',{ascending:false}).limit(1);
+  const { data:maxRows } = await db.from('gallery').select('position').eq('section',s.id).order('position',{ascending:false}).limit(1);
   let pos = maxRows && maxRows.length ? maxRows[0].position+1 : 0;
   for(const file of files){
     const path = s.id+'/'+Date.now()+'_'+Math.random().toString(36).slice(2)+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'');
-    const up = await sb.storage.from('media').upload(path, file, {upsert:false});
+    const up = await db.storage.from('media').upload(path, file, {upsert:false});
     if(up.error){ $('#mediaStatus').textContent='Помилка: '+up.error.message; return; }
-    const url = sb.storage.from('media').getPublicUrl(path).data.publicUrl;
-    await sb.from('gallery').insert({ section:s.id, subcategory:sub||null, kind:'image', url, storage_path:path, position:pos++ });
+    const url = db.storage.from('media').getPublicUrl(path).data.publicUrl;
+    await db.from('gallery').insert({ section:s.id, subcategory:sub||null, kind:'image', url, storage_path:path, position:pos++ });
   }
   $('#mediaStatus').textContent='Готово ✓'; setTimeout(()=>{$('#mediaStatus').textContent='';},2000);
   renderMedia();
@@ -282,23 +285,23 @@ async function addPhotos(){
 async function addVideo(){
   const s=curSection(); const url=$('#vidUrl').value.trim(); const cap=$('#vidCap').value.trim();
   if(!url){return;}
-  const { data:maxRows } = await sb.from('gallery').select('position').eq('section',s.id).order('position',{ascending:false}).limit(1);
+  const { data:maxRows } = await db.from('gallery').select('position').eq('section',s.id).order('position',{ascending:false}).limit(1);
   let pos = maxRows && maxRows.length ? maxRows[0].position+1 : 0;
-  const { error } = await sb.from('gallery').insert({ section:s.id, kind:'video', url, caption:cap||null, position:pos });
+  const { error } = await db.from('gallery').insert({ section:s.id, kind:'video', url, caption:cap||null, position:pos });
   $('#mediaStatus').textContent = error? ('Помилка: '+error.message):'Додано ✓'; setTimeout(()=>{$('#mediaStatus').textContent='';},2000);
   renderMedia();
 }
 
 async function delItem(it){
   if(!confirm('Видалити цей елемент?'))return;
-  if(it.storage_path){ await sb.storage.from('media').remove([it.storage_path]); }
-  await sb.from('gallery').delete().eq('id', it.id);
+  if(it.storage_path){ await db.storage.from('media').remove([it.storage_path]); }
+  await db.from('gallery').delete().eq('id', it.id);
   renderMedia();
 }
 async function move(a,b){
   if(!b)return;
-  await sb.from('gallery').update({position:b.position}).eq('id',a.id);
-  await sb.from('gallery').update({position:a.position}).eq('id',b.id);
+  await db.from('gallery').update({position:b.position}).eq('id',a.id);
+  await db.from('gallery').update({position:a.position}).eq('id',b.id);
   renderMedia();
 }
 
