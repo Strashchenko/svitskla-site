@@ -58,7 +58,7 @@
         frame.setAttribute('href', link);
         frame.innerHTML = '<video src="' + row.url + '" autoplay muted loop playsinline preload="metadata"></video>';
       }
-      if (btn) { btn.setAttribute('href', link); if (row.caption) btn.textContent = row.caption; }
+      if (btn) { btn.setAttribute('href', link); if (row.caption) { var lab = btn.querySelector('.btn-label'); if (lab) lab.textContent = row.caption; else btn.textContent = row.caption; } }
     });
   }
 })();
