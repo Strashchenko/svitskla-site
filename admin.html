@@ -146,7 +146,7 @@ const FIELDS = [
 
 /* ---- Медіа-секції ---- */
 const SECTIONS = [
-  {id:"works", l:"Відео «Наші виконані роботи»", kind:"video"},
+  {id:"works", l:"Відео «Наші виконані роботи»", kind:"works"},
   {id:"catalog_dushovi", l:"Каталог: Душові кабіни та перегородки", kind:"image", subs:[["rozpashni","Розпашні"],["rozsuvni","Розсувні"],["statsionarni","Стаціонарні"],["slider","Slider"]]},
   {id:"catalog_shtorky", l:"Каталог: Шторки на ванну", kind:"image", subs:[["statsionarni","Стаціонарні"],["rozsuvni","Розсувні"],["rozpashni","Розпашні"]]},
   {id:"catalog_dzerkala", l:"Каталог: Дзеркала", kind:"image", subs:[["pidsvitka","З підсвіткою"],["rama","В рамах"],["panno","Дзеркальне панно"]]},
@@ -225,12 +225,15 @@ function curSection(){ return SECTIONS.find(s=>s.id===$('#sectionSel').value); }
 
 function renderAddArea(){
   const s=curSection(); const area=$('#addArea'); area.innerHTML='';
-  if(s.kind==='video'){
+  if(s.kind==='works'){
     area.innerHTML =
-      '<label>Посилання на відео (TikTok / Instagram / YouTube)</label><input id="vidUrl" placeholder="https://...">'+
+      '<label>Слот</label><select id="slotSel"><option value="tiktok">TikTok</option><option value="instagram">Instagram</option></select>'+
+      '<label>Коротке відео (mp4) — програватиметься без звуку, по колу</label><input id="vidFile" type="file" accept="video/*">'+
+      '<label>Посилання, куди веде клік (TikTok / Instagram)</label><input id="vidLink" placeholder="https://...">'+
       '<label>Підпис кнопки</label><input id="vidCap" placeholder="Дивитись у TikTok">'+
-      '<div style="margin-top:.8rem"><button id="addVid">Додати відео</button></div>';
-    $('#addVid').onclick=addVideo;
+      '<div style="margin-top:.8rem"><button id="addWorks">Зберегти відео</button></div>'+
+      '<div class="hint">Порада: вертикальне відео (9:16), до ~15 секунд.</div>';
+    $('#addWorks').onclick=addWorks;
   } else {
     let subHtml='';
     if(s.subs && s.subs.length){
@@ -252,9 +255,9 @@ async function renderMedia(){
   if(!data || !data.length){ list.innerHTML='<div class="hint">Поки що порожньо. Додайте фото або відео вище.</div>'; return; }
   data.forEach((it,i)=>{
     const d=document.createElement('div'); d.className='media-item';
-    const img=document.createElement('img'); img.src = it.kind==='video' ? (it.cover||'') : it.url; if(!img.src){img.style.background='#0C0E12';} d.appendChild(img);
+    var media; if(it.kind==='video'){ media=document.createElement('video'); media.src=it.url; media.muted=true; media.loop=true; media.autoplay=true; media.setAttribute('playsinline',''); } else { media=document.createElement('img'); media.src=it.url; } media.style.width='100%'; media.style.aspectRatio='9/16'; media.style.objectFit='cover'; media.style.background='#0C0E12'; d.appendChild(media);
     const body=document.createElement('div'); body.className='mi-body';
-    if(it.kind==='video'){ const t=document.createElement('span'); t.className='vidtag'; t.textContent='ВІДЕО'; body.appendChild(t); const cap=document.createElement('span'); cap.textContent=it.caption||it.url; body.appendChild(cap); }
+    if(it.kind==='video'){ const t=document.createElement('span'); t.className='vidtag'; t.textContent='ВІДЕО · '+(it.subcategory==='instagram'?'Instagram':'TikTok'); body.appendChild(t); const cap=document.createElement('span'); cap.textContent=it.caption||''; body.appendChild(cap); }
     else if(it.subcategory){ const t=document.createElement('span'); t.textContent='Підкатегорія: '+it.subcategory; body.appendChild(t); }
     const act=document.createElement('div'); act.className='mi-actions';
     const up=document.createElement('button'); up.className='ghost sm'; up.textContent='↑'; up.onclick=()=>move(it,data[i-1]); if(i===0)up.disabled=true;
@@ -282,6 +285,20 @@ async function addPhotos(){
   renderMedia();
 }
 
+async function addWorks(){
+  const slot=$('#slotSel').value; const file=$('#vidFile').files[0]; const link=$('#vidLink').value.trim(); const cap=$('#vidCap').value.trim();
+  if(!file){ $('#mediaStatus').textContent='Оберіть відеофайл'; return; }
+  $('#mediaStatus').textContent='Завантаження…';
+  const path='works/'+slot+'_'+Date.now()+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'');
+  const up=await db.storage.from('media').upload(path,file);
+  if(up.error){ $('#mediaStatus').textContent='Помилка: '+up.error.message; return; }
+  const url=db.storage.from('media').getPublicUrl(path).data.publicUrl;
+  await db.from('gallery').delete().eq('section','works').eq('subcategory',slot);
+  const ins=await db.from('gallery').insert({section:'works',subcategory:slot,kind:'video',url:url,link:link||null,caption:cap||null,position:slot==='tiktok'?0:1});
+  $('#mediaStatus').textContent = ins.error?('Помилка: '+ins.error.message):'Збережено ✓';
+  setTimeout(()=>{$('#mediaStatus').textContent='';},2500);
+  renderMedia();
+}
 async function addVideo(){
   const s=curSection(); const url=$('#vidUrl').value.trim(); const cap=$('#vidCap').value.trim();
   if(!url){return;}

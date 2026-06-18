@@ -45,20 +45,20 @@
     });
   }
 
-  // Відео-блок «Наші виконані роботи» (секція works)
+  // Відео-блок «Наші виконані роботи»: два слоти tiktok / instagram
   function applyWorks() {
-    var box = document.getElementById('worksGallery');
-    if (!box) return;
-    var rows = window.CMS.gallery.filter(function (g) { return g.section === 'works'; });
-    if (!rows.length) return; // лишаємо плейсхолдери
-    box.innerHTML = '';
-    rows.forEach(function (it) {
-      var item = document.createElement('div'); item.className = 'vid-item';
-      var fr = document.createElement('a'); fr.className = 'vid-frame'; fr.href = it.url; fr.target = '_blank'; fr.rel = 'noopener';
-      var img = document.createElement('img'); img.src = it.cover || PLAY; img.alt = it.caption || 'Відео'; fr.appendChild(img);
-      var btn = document.createElement('a'); btn.className = 'btn btn--ghost'; btn.href = it.url; btn.target = '_blank'; btn.rel = 'noopener';
-      btn.textContent = it.caption || 'Дивитись';
-      item.appendChild(fr); item.appendChild(btn); box.appendChild(item);
+    document.querySelectorAll('[data-works-slot]').forEach(function (item) {
+      var slot = item.getAttribute('data-works-slot');
+      var row = window.CMS.gallery.find(function (g) { return g.section === 'works' && g.subcategory === slot && g.url; });
+      if (!row) return; // лишаємо плейсхолдер
+      var link = row.link || row.url;
+      var frame = item.querySelector('.vid-frame');
+      var btn = item.querySelector('a.btn');
+      if (frame) {
+        frame.setAttribute('href', link);
+        frame.innerHTML = '<video src="' + row.url + '" autoplay muted loop playsinline preload="metadata"></video>';
+      }
+      if (btn) { btn.setAttribute('href', link); if (row.caption) btn.textContent = row.caption; }
     });
   }
 })();
