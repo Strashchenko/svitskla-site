@@ -65,6 +65,7 @@
     <div class="tabs">
       <button data-tab="texts" class="active">Тексти</button>
       <button data-tab="media">Фото та відео</button>
+      <button data-tab="leads">Заявки</button>
       <button data-tab="pass">Пароль</button>
     </div>
 
@@ -83,6 +84,17 @@
       <div id="mediaList" class="media-list"></div>
     </div>
 
+    <div id="tab-leads" style="display:none">
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <h3 style="margin:0">Заявки з форми</h3>
+          <button id="exportLeads">Експорт в Excel</button>
+        </div>
+        <div id="leadsStatus" class="status"></div>
+        <div id="leadsList" style="margin-top:1rem;overflow-x:auto"></div>
+      </div>
+    </div>
+
     <div id="tab-pass" style="display:none">
       <div class="card">
         <h3 style="margin-top:0">Змінити пароль</h3>
@@ -95,6 +107,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="supabase-config.js"></script>
 <script>
 const sb = supabase.createClient(window.SB_URL, window.SB_KEY, { auth:{ persistSession:true, autoRefreshToken:true } });
@@ -186,7 +199,9 @@ document.querySelectorAll('.tabs button').forEach(b=>{
     b.classList.add('active');
     $('#tab-texts').style.display = b.dataset.tab==='texts'?'block':'none';
     $('#tab-media').style.display = b.dataset.tab==='media'?'block':'none';
+    $('#tab-leads').style.display = b.dataset.tab==='leads'?'block':'none';
     $('#tab-pass').style.display  = b.dataset.tab==='pass'?'block':'none';
+    if(b.dataset.tab==='leads') loadLeads();
   };
 });
 
@@ -329,6 +344,37 @@ $('#changePass').onclick = async function(){
   $('#passStatus').textContent = error? ('Помилка: '+error.message):'Пароль змінено ✓';
   $('#newPass').value='';
 };
+
+/* ---------- ЗАЯВКИ ---------- */
+let LEADS=[];
+function escL(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtDate(iso){var d=new Date(iso);var p=function(n){return String(n).padStart(2,'0');};return p(d.getDate())+'.'+p(d.getMonth()+1)+'.'+d.getFullYear()+' '+p(d.getHours())+':'+p(d.getMinutes());}
+async function loadLeads(){
+  $('#leadsList').innerHTML='Завантаження…';
+  const r = await db.from('leads').select('*').order('created_at',{ascending:false});
+  if(r.error){ $('#leadsList').innerHTML='<div class="hint">Помилка: '+r.error.message+'</div>'; return; }
+  LEADS=r.data||[];
+  if(!LEADS.length){ $('#leadsList').innerHTML='<div class="hint">Поки що немає заявок.</div>'; return; }
+  var th='style="text-align:left;padding:.55rem;border-bottom:2px solid var(--border)"';
+  var td='style="padding:.55rem;border-bottom:1px solid var(--border)"';
+  var h='<table style="width:100%;border-collapse:collapse;font-size:.92rem"><thead><tr><th '+th+'>Дата</th><th '+th+'>Імʼя</th><th '+th+'>Телефон</th><th '+th+'></th></tr></thead><tbody>';
+  LEADS.forEach(function(x){
+    h+='<tr><td '+td+'>'+fmtDate(x.created_at)+'</td><td '+td+'>'+escL(x.name)+'</td><td '+td+'>'+escL(x.phone)+'</td><td '+td+' align="right"><button class="danger sm" data-del="'+x.id+'">✕</button></td></tr>';
+  });
+  h+='</tbody></table>';
+  $('#leadsList').innerHTML=h;
+  $('#leadsList').querySelectorAll('[data-del]').forEach(function(b){ b.onclick=function(){ delLead(b.getAttribute('data-del')); }; });
+}
+async function delLead(id){ if(!confirm('Видалити цю заявку?'))return; await db.from('leads').delete().eq('id',id); loadLeads(); }
+function exportLeads(){
+  if(!LEADS.length){ $('#leadsStatus').textContent='Немає заявок для експорту'; setTimeout(function(){$('#leadsStatus').textContent='';},2000); return; }
+  var rows=[['Дата','Імʼя','Телефон']];
+  LEADS.forEach(function(x){ rows.push([fmtDate(x.created_at), x.name, x.phone]); });
+  var ws=XLSX.utils.aoa_to_sheet(rows); ws['!cols']=[{wch:18},{wch:24},{wch:20}];
+  var wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'Заявки');
+  XLSX.writeFile(wb,'zayavky.xlsx');
+}
+var _expBtn=document.getElementById('exportLeads'); if(_expBtn) _expBtn.onclick=exportLeads;
 
 init();
 </script>

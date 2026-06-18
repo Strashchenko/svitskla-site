@@ -624,7 +624,7 @@ document.querySelectorAll('[data-ba]').forEach(ba=>{const range=ba.querySelector
 
 /* lead form (demo) */
 const leadEl=document.getElementById('leadFormEl');
-if(leadEl)leadEl.addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('leadName').value.trim();const phone=document.getElementById('leadPhone').value.trim();if(!name||!phone)return;document.getElementById('leadForm').classList.add('sent');});
+if(leadEl)leadEl.addEventListener('submit',async e=>{e.preventDefault();const name=document.getElementById('leadName').value.trim();const phone=document.getElementById('leadPhone').value.trim();if(!name||!phone)return;try{if(window.CMS&&window.CMS.client){await window.CMS.client.from('leads').insert({name:name,phone:phone});}}catch(err){console.warn('lead save',err);}document.getElementById('leadForm').classList.add('sent');});
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
