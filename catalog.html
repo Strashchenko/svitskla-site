@@ -198,6 +198,9 @@ p{font-size:1rem;line-height:1.65}
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="cms.js"></script>
 <script>
 const panel=document.getElementById('navPanel');
 document.getElementById('menuOpen').addEventListener('click',()=>panel.classList.add('open'));
@@ -232,16 +235,18 @@ else{fb.style.display='none';}
 
 const grid=document.getElementById('grid');
 const types=(cat.filters&&cat.filters.length)?cat.filters.map(function(f){return f[0];}):['item'];
-var html='';for(var i=0;i<8;i++){var t=types[i%types.length];html+='<a href="#" class="pcard" data-type="'+t+'"><div class="pcard__media ph"><img src="'+ph(i)+'" alt="Фото"></div></a>';}
-grid.innerHTML=html;
-
-document.querySelectorAll('.filter-chip').forEach(function(chip){
-  chip.addEventListener('click',function(){
-    document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active');});
-    chip.classList.add('active');
-    var f=chip.dataset.filter;
-    Array.from(grid.children).forEach(function(c){c.style.display=(f==='all'||c.dataset.type===f)?'':'none';});
-  });
+function placeholders(){var html='';for(var i=0;i<8;i++){var t=types[i%types.length];html+='<a href="#" class="pcard" data-type="'+t+'"><div class="pcard__media ph"><img src="'+ph(i)+'" alt="Фото"></div></a>';}grid.innerHTML=html;}
+function renderPhotos(rows){grid.innerHTML=rows.map(function(r){var t=r.subcategory||'item';return '<a href="'+r.url+'" target="_blank" rel="noopener" class="pcard" data-type="'+t+'"><div class="pcard__media"><img src="'+r.url+'" alt="Фото" loading="lazy"></div></a>';}).join('');}
+(window.CMS&&window.CMS.ready?window.CMS.ready:Promise.resolve()).then(function(){
+  var rows=((window.CMS&&window.CMS.gallery)||[]).filter(function(g){return g.section==='catalog_'+key&&g.kind==='image';});
+  if(rows.length){renderPhotos(rows);}else{placeholders();}
+});
+document.addEventListener('click',function(e){
+  var chip=e.target.closest&&e.target.closest('.filter-chip'); if(!chip)return;
+  document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active');});
+  chip.classList.add('active');
+  var f=chip.dataset.filter;
+  Array.from(grid.children).forEach(function(c){c.style.display=(f==='all'||c.dataset.type===f)?'':'none';});
 });
 </script>
 </body>

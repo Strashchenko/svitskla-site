@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Адмінка · Світскла Сервіс</title>
+<style>
+  :root{--ink:#0C0E12;--azure:#3A80D2;--aqua:#15C9EA;--soft:#EAF3F8;--border:#D9E2EA;--muted:#6C7886}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Manrope,system-ui,Arial,sans-serif;background:var(--soft);color:var(--ink)}
+  header.bar{background:var(--ink);color:#fff;padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+  header.bar b{font-size:1.05rem}
+  .wrap{max-width:880px;margin:0 auto;padding:1.25rem}
+  .card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+  label{display:block;font-weight:700;font-size:.9rem;margin:.9rem 0 .35rem}
+  input,textarea,select{width:100%;padding:.7rem .8rem;border:1px solid var(--border);border-radius:9px;font-family:inherit;font-size:.95rem;background:#fff}
+  textarea{min-height:70px;resize:vertical}
+  button{cursor:pointer;border:none;border-radius:9px;font-family:inherit;font-weight:700;font-size:.95rem;padding:.7rem 1.1rem;background:var(--azure);color:#fff}
+  button.ghost{background:#fff;color:var(--ink);border:1px solid var(--border)}
+  button.sm{padding:.35rem .6rem;font-size:.8rem}
+  button.danger{background:#e23b3b}
+  .tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0}
+  .tabs button{background:#fff;color:var(--ink);border:1px solid var(--border)}
+  .tabs button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .group-title{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--azure);margin:.4rem 0 0}
+  .hint{color:var(--muted);font-size:.82rem;margin-top:.3rem}
+  .status{font-size:.85rem;color:#1a9e4b;height:1.1em;margin-top:.3rem}
+  .row{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+  .media-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.9rem;margin-top:1rem}
+  .media-item{border:1px solid var(--border);border-radius:9px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+  .media-item img{width:100%;aspect-ratio:9/16;object-fit:cover;background:#0C0E12}
+  .media-item .mi-body{padding:.5rem;font-size:.8rem;color:var(--muted);display:flex;flex-direction:column;gap:.4rem}
+  .media-item .mi-actions{display:flex;gap:.3rem;flex-wrap:wrap}
+  .vidtag{display:inline-block;background:var(--ink);color:#fff;font-size:.7rem;padding:.15rem .4rem;border-radius:4px}
+  #login{max-width:380px;margin:8vh auto;padding:1.5rem}
+  #app{display:none}
+  .err{color:#e23b3b;font-size:.85rem;margin-top:.5rem}
+  .saveall{position:sticky;bottom:0;background:var(--soft);padding:.8rem 0}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login" class="card">
+  <h2 style="margin-top:0">Вхід в адмінку</h2>
+  <label>Email</label>
+  <input id="email" type="email" autocomplete="username" placeholder="admin@svitskla.com.ua">
+  <label>Пароль</label>
+  <input id="password" type="password" autocomplete="current-password" placeholder="••••••••">
+  <div style="margin-top:1rem"><button id="loginBtn">Увійти</button></div>
+  <div id="loginErr" class="err"></div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header class="bar">
+    <b>Адмінка · Світскла Сервіс</b>
+    <div class="row">
+      <a href="index.html" target="_blank" rel="noopener"><button class="ghost sm">Відкрити сайт ↗</button></a>
+      <button id="logoutBtn" class="ghost sm">Вийти</button>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="tabs">
+      <button data-tab="texts" class="active">Тексти</button>
+      <button data-tab="media">Фото та відео</button>
+      <button data-tab="pass">Пароль</button>
+    </div>
+
+    <div id="tab-texts">
+      <div id="fields"></div>
+      <div class="saveall"><button id="saveAll">Зберегти всі тексти</button> <span id="textsStatus" class="status"></span></div>
+    </div>
+
+    <div id="tab-media" style="display:none">
+      <div class="card">
+        <label>Оберіть місце на сайті</label>
+        <select id="sectionSel"></select>
+        <div id="addArea" style="margin-top:1rem"></div>
+        <div id="mediaStatus" class="status"></div>
+      </div>
+      <div id="mediaList" class="media-list"></div>
+    </div>
+
+    <div id="tab-pass" style="display:none">
+      <div class="card">
+        <h3 style="margin-top:0">Змінити пароль</h3>
+        <label>Новий пароль (мін. 6 символів)</label>
+        <input id="newPass" type="password" placeholder="новий пароль">
+        <div style="margin-top:1rem"><button id="changePass">Зберегти пароль</button> <span id="passStatus" class="status"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+const sb = supabase.createClient(window.SB_URL, window.SB_KEY);
+
+/* ---- Поля текстів ---- */
+const FIELDS = [
+  {g:"Контакти"},
+  {k:"phone_display", l:"Телефон (як показується)"},
+  {k:"phone_tel", l:"Телефон для дзвінка (тільки + і цифри)", hint:"Напр.: +380981306396"},
+  {k:"email", l:"Email"},
+  {k:"address", l:"Адреса"},
+  {k:"hours", l:"Графік роботи"},
+  {g:"Головний банер — слайди"},
+  {k:"slide1_eyebrow", l:"Слайд 1 — маленький підпис"},
+  {k:"slide1_title", l:"Слайд 1 — заголовок"},
+  {k:"slide1_subtitle", l:"Слайд 1 — опис", t:1},
+  {k:"slide2_eyebrow", l:"Слайд 2 — підпис"},
+  {k:"slide2_title", l:"Слайд 2 — заголовок"},
+  {k:"slide2_subtitle", l:"Слайд 2 — опис", t:1},
+  {k:"slide3_eyebrow", l:"Слайд 3 — підпис"},
+  {k:"slide3_title", l:"Слайд 3 — заголовок"},
+  {k:"slide3_subtitle", l:"Слайд 3 — опис", t:1},
+  {k:"slide4_eyebrow", l:"Слайд 4 — підпис"},
+  {k:"slide4_title", l:"Слайд 4 — заголовок"},
+  {k:"slide4_subtitle", l:"Слайд 4 — опис", t:1},
+  {g:"Секції головної"},
+  {k:"products_heading", l:"«Наша продукція» — підзаголовок", t:1},
+  {k:"featured_title", l:"Заголовок «Створено для життя»"},
+  {k:"featured_hint", l:"Підпис під ним", t:1},
+  {k:"insp_title", l:"Заголовок «Наші виконані роботи»"},
+  {k:"pay_title", l:"Заголовок «Розстрочка та державні програми»"},
+  {k:"pay_caption1", l:"Підпис під ПриватБанком"},
+  {k:"pay_caption2", l:"Підпис під єВідновленням"},
+  {k:"craft_heading", l:"Заголовок «Наша майстерність»", t:1},
+  {k:"craft_card1_title", l:"Майстерність — картка 1, назва"},
+  {k:"craft_card1_desc", l:"Майстерність — картка 1, опис", t:1},
+  {k:"craft_card2_title", l:"Майстерність — картка 2, назва"},
+  {k:"craft_card2_desc", l:"Майстерність — картка 2, опис", t:1},
+  {k:"craft_card3_title", l:"Майстерність — картка 3, назва"},
+  {k:"craft_card3_desc", l:"Майстерність — картка 3, опис", t:1},
+  {k:"craft_card4_title", l:"Майстерність — картка 4, назва"},
+  {k:"craft_card4_desc", l:"Майстерність — картка 4, опис", t:1},
+  {g:"Контакти / карта / низ"},
+  {k:"map_title", l:"Заголовок «Завітайте до нашого офісу»"},
+  {k:"cta_title", l:"Заголовок «Розрахуємо вартість…»"}
+];
+
+/* ---- Медіа-секції ---- */
+const SECTIONS = [
+  {id:"works", l:"Відео «Наші виконані роботи»", kind:"video"},
+  {id:"catalog_dushovi", l:"Каталог: Душові кабіни та перегородки", kind:"image", subs:[["rozpashni","Розпашні"],["rozsuvni","Розсувні"],["statsionarni","Стаціонарні"],["slider","Slider"]]},
+  {id:"catalog_shtorky", l:"Каталог: Шторки на ванну", kind:"image", subs:[["statsionarni","Стаціонарні"],["rozsuvni","Розсувні"],["rozpashni","Розпашні"]]},
+  {id:"catalog_dzerkala", l:"Каталог: Дзеркала", kind:"image", subs:[["pidsvitka","З підсвіткою"],["rama","В рамах"],["panno","Дзеркальне панно"]]},
+  {id:"catalog_peregorodky", l:"Каталог: Перегородки та двері", kind:"image", subs:[["statsionarni","Стаціонарні"],["rozpashni","Розпашні"],["rozsuvni","Розсувні"],["skrytyy","Скритий монтаж"]]},
+  {id:"catalog_peryla", l:"Каталог: Перила", kind:"image", subs:[]},
+  {id:"catalog_fartuky", l:"Каталог: Кухонні фартуки", kind:"image", subs:[["farbovani","Фарбовані"],["fotodruk","Фотодрук"],["chysti","Чисті"]]},
+  {id:"catalog_fotodruk", l:"Каталог: Фотодрук та фарбування", kind:"image", subs:[["fotodruk","Фотодрук"],["farbuvannia","Фарбування"],["piskostruy","Піскоструй"],["logo","Нанесення лого"],["plivka","Плівка"]]},
+  {id:"catalog_inshe", l:"Каталог: Інше", kind:"image", subs:[]}
+];
+
+const $ = function(s){return document.querySelector(s);};
+
+/* ---------- AUTH ---------- */
+async function init(){
+  const { data } = await sb.auth.getSession();
+  if(data.session){ showApp(); } else { $('#login').style.display='block'; $('#app').style.display='none'; }
+}
+$('#loginBtn').onclick = async function(){
+  $('#loginErr').textContent='';
+  const { error } = await sb.auth.signInWithPassword({ email:$('#email').value.trim(), password:$('#password').value });
+  if(error){ $('#loginErr').textContent='Невірний email або пароль.'; return; }
+  showApp();
+};
+$('#password').addEventListener('keydown',e=>{ if(e.key==='Enter') $('#loginBtn').click(); });
+$('#logoutBtn').onclick = async function(){ await sb.auth.signOut(); location.reload(); };
+
+function showApp(){
+  $('#login').style.display='none'; $('#app').style.display='block';
+  buildFields(); loadTexts(); buildSectionSel();
+}
+
+/* ---------- TABS ---------- */
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick=function(){
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    $('#tab-texts').style.display = b.dataset.tab==='texts'?'block':'none';
+    $('#tab-media').style.display = b.dataset.tab==='media'?'block':'none';
+    $('#tab-pass').style.display  = b.dataset.tab==='pass'?'block':'none';
+  };
+});
+
+/* ---------- TEXTS ---------- */
+function buildFields(){
+  const box=$('#fields'); box.innerHTML='';
+  let card=null;
+  FIELDS.forEach(f=>{
+    if(f.g){ card=document.createElement('div'); card.className='card';
+      const t=document.createElement('div'); t.className='group-title'; t.textContent=f.g; card.appendChild(t); box.appendChild(card); return; }
+    const lab=document.createElement('label'); lab.textContent=f.l; card.appendChild(lab);
+    const el=document.createElement(f.t?'textarea':'input'); el.id='f_'+f.k; el.dataset.key=f.k; card.appendChild(el);
+    if(f.hint){ const h=document.createElement('div'); h.className='hint'; h.textContent=f.hint; card.appendChild(h); }
+  });
+}
+async function loadTexts(){
+  const { data } = await sb.from('site_content').select('key,value');
+  const map={}; (data||[]).forEach(r=>map[r.key]=r.value);
+  FIELDS.forEach(f=>{ if(f.k){ const el=$('#f_'+f.k); if(el) el.value = map[f.k]!=null?map[f.k]:''; } });
+}
+$('#saveAll').onclick = async function(){
+  $('#textsStatus').textContent='Збереження…';
+  const rows = FIELDS.filter(f=>f.k).map(f=>({ key:f.k, value:$('#f_'+f.k).value, updated_at:new Date().toISOString() }));
+  const { error } = await sb.from('site_content').upsert(rows, { onConflict:'key' });
+  $('#textsStatus').textContent = error? ('Помилка: '+error.message) : 'Збережено ✓';
+  setTimeout(()=>{$('#textsStatus').textContent='';},2500);
+};
+
+/* ---------- MEDIA ---------- */
+function buildSectionSel(){
+  const sel=$('#sectionSel'); sel.innerHTML='';
+  SECTIONS.forEach(s=>{ const o=document.createElement('option'); o.value=s.id; o.textContent=s.l; sel.appendChild(o); });
+  sel.onchange=renderMedia; renderMedia();
+}
+function curSection(){ return SECTIONS.find(s=>s.id===$('#sectionSel').value); }
+
+function renderAddArea(){
+  const s=curSection(); const area=$('#addArea'); area.innerHTML='';
+  if(s.kind==='video'){
+    area.innerHTML =
+      '<label>Посилання на відео (TikTok / Instagram / YouTube)</label><input id="vidUrl" placeholder="https://...">'+
+      '<label>Підпис кнопки</label><input id="vidCap" placeholder="Дивитись у TikTok">'+
+      '<div style="margin-top:.8rem"><button id="addVid">Додати відео</button></div>';
+    $('#addVid').onclick=addVideo;
+  } else {
+    let subHtml='';
+    if(s.subs && s.subs.length){
+      subHtml='<label>Підкатегорія (фільтр)</label><select id="subSel"><option value="">— без підкатегорії —</option>'+
+        s.subs.map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join('')+'</select>';
+    }
+    area.innerHTML = subHtml +
+      '<label>Фото (можна кілька)</label><input id="photoInput" type="file" accept="image/*" multiple>'+
+      '<div style="margin-top:.8rem"><button id="addPhoto">Завантажити фото</button></div>';
+    $('#addPhoto').onclick=addPhotos;
+  }
+}
+
+async function renderMedia(){
+  renderAddArea();
+  const s=curSection(); const list=$('#mediaList'); list.innerHTML='Завантаження…';
+  const { data } = await sb.from('gallery').select('*').eq('section', s.id).order('position',{ascending:true});
+  list.innerHTML='';
+  if(!data || !data.length){ list.innerHTML='<div class="hint">Поки що порожньо. Додайте фото або відео вище.</div>'; return; }
+  data.forEach((it,i)=>{
+    const d=document.createElement('div'); d.className='media-item';
+    const img=document.createElement('img'); img.src = it.kind==='video' ? (it.cover||'') : it.url; if(!img.src){img.style.background='#0C0E12';} d.appendChild(img);
+    const body=document.createElement('div'); body.className='mi-body';
+    if(it.kind==='video'){ const t=document.createElement('span'); t.className='vidtag'; t.textContent='ВІДЕО'; body.appendChild(t); const cap=document.createElement('span'); cap.textContent=it.caption||it.url; body.appendChild(cap); }
+    else if(it.subcategory){ const t=document.createElement('span'); t.textContent='Підкатегорія: '+it.subcategory; body.appendChild(t); }
+    const act=document.createElement('div'); act.className='mi-actions';
+    const up=document.createElement('button'); up.className='ghost sm'; up.textContent='↑'; up.onclick=()=>move(it,data[i-1]); if(i===0)up.disabled=true;
+    const dn=document.createElement('button'); dn.className='ghost sm'; dn.textContent='↓'; dn.onclick=()=>move(it,data[i+1]); if(i===data.length-1)dn.disabled=true;
+    const del=document.createElement('button'); del.className='danger sm'; del.textContent='Видалити'; del.onclick=()=>delItem(it);
+    act.appendChild(up); act.appendChild(dn); act.appendChild(del); body.appendChild(act);
+    d.appendChild(body); list.appendChild(d);
+  });
+}
+
+async function addPhotos(){
+  const s=curSection(); const files=$('#photoInput').files; if(!files.length){return;}
+  const sub = $('#subSel') ? $('#subSel').value : null;
+  $('#mediaStatus').textContent='Завантаження…';
+  const { data:maxRows } = await sb.from('gallery').select('position').eq('section',s.id).order('position',{ascending:false}).limit(1);
+  let pos = maxRows && maxRows.length ? maxRows[0].position+1 : 0;
+  for(const file of files){
+    const path = s.id+'/'+Date.now()+'_'+Math.random().toString(36).slice(2)+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'');
+    const up = await sb.storage.from('media').upload(path, file, {upsert:false});
+    if(up.error){ $('#mediaStatus').textContent='Помилка: '+up.error.message; return; }
+    const url = sb.storage.from('media').getPublicUrl(path).data.publicUrl;
+    await sb.from('gallery').insert({ section:s.id, subcategory:sub||null, kind:'image', url, storage_path:path, position:pos++ });
+  }
+  $('#mediaStatus').textContent='Готово ✓'; setTimeout(()=>{$('#mediaStatus').textContent='';},2000);
+  renderMedia();
+}
+
+async function addVideo(){
+  const s=curSection(); const url=$('#vidUrl').value.trim(); const cap=$('#vidCap').value.trim();
+  if(!url){return;}
+  const { data:maxRows } = await sb.from('gallery').select('position').eq('section',s.id).order('position',{ascending:false}).limit(1);
+  let pos = maxRows && maxRows.length ? maxRows[0].position+1 : 0;
+  const { error } = await sb.from('gallery').insert({ section:s.id, kind:'video', url, caption:cap||null, position:pos });
+  $('#mediaStatus').textContent = error? ('Помилка: '+error.message):'Додано ✓'; setTimeout(()=>{$('#mediaStatus').textContent='';},2000);
+  renderMedia();
+}
+
+async function delItem(it){
+  if(!confirm('Видалити цей елемент?'))return;
+  if(it.storage_path){ await sb.storage.from('media').remove([it.storage_path]); }
+  await sb.from('gallery').delete().eq('id', it.id);
+  renderMedia();
+}
+async function move(a,b){
+  if(!b)return;
+  await sb.from('gallery').update({position:b.position}).eq('id',a.id);
+  await sb.from('gallery').update({position:a.position}).eq('id',b.id);
+  renderMedia();
+}
+
+/* ---------- PASSWORD ---------- */
+$('#changePass').onclick = async function(){
+  const p=$('#newPass').value; if(p.length<6){ $('#passStatus').textContent='Мінімум 6 символів'; return; }
+  const { error } = await sb.auth.updateUser({ password:p });
+  $('#passStatus').textContent = error? ('Помилка: '+error.message):'Пароль змінено ✓';
+  $('#newPass').value='';
+};
+
+init();
+</script>
+</body>
+</html>
