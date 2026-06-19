@@ -141,6 +141,9 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 .ba__label{position:absolute;bottom:.8rem;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(12,14,18,.7);padding:.25rem .5rem;border-radius:3px;z-index:2;pointer-events:none}
 .ba__label--before{left:.8rem}
 .ba__label--after{right:.8rem}
+.ba--hint .ba__before{transition:clip-path .55s ease}
+.ba--hint .ba__handle{transition:left .55s ease}
+@media(prefers-reduced-motion:reduce){.ba--hint .ba__before,.ba--hint .ba__handle{transition:none}}
 
 /* ============================ INSPIRATION ============================ */
 .inspiration-section{padding:6rem 1.5rem 0}
@@ -626,8 +629,17 @@ if(track){let sx=null,sy=null;
   track.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){go(dx<0?idx+1:idx-1);if(!paused)play();}sx=sy=null;},{passive:true});
 }
 
-/* before/after sliders */
-document.querySelectorAll('[data-ba]').forEach(ba=>{const range=ba.querySelector('.ba__range');const set=v=>ba.style.setProperty('--pos',v+'%');if(range){range.addEventListener('input',()=>set(range.value));set(range.value);}});
+/* before/after sliders + підказка-похитування при появі */
+document.querySelectorAll('[data-ba]').forEach(ba=>{const range=ba.querySelector('.ba__range');const set=v=>ba.style.setProperty('--pos',v+'%');if(range){range.addEventListener('input',()=>{ba.classList.remove('ba--hint');set(range.value);});set(range.value);}});
+if('IntersectionObserver' in window){
+  const baIO=new IntersectionObserver((ents)=>{ents.forEach(en=>{
+    if(!en.isIntersecting)return; const ba=en.target; baIO.unobserve(ba);
+    const range=ba.querySelector('.ba__range'); const set=v=>ba.style.setProperty('--pos',v+'%');
+    ba.classList.add('ba--hint'); const seq=[34,66,50]; let i=0;
+    (function tick(){ if(i>=seq.length){ setTimeout(()=>ba.classList.remove('ba--hint'),650); if(range)range.value=50; return; } set(seq[i]); if(range)range.value=seq[i]; i++; setTimeout(tick,640); })();
+  });},{threshold:.45});
+  document.querySelectorAll('[data-ba]').forEach(ba=>baIO.observe(ba));
+}
 
 /* lead form (demo) */
 const leadEl=document.getElementById('leadFormEl');
