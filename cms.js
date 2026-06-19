@@ -26,7 +26,27 @@
     } catch (e) { console.warn('CMS load error', e); }
     applyTexts();
     applyWorks();
+    applyHomeMedia();
     return window.CMS;
+  }
+
+  // Медіа головної сторінки: фіксовані слоти (картки продукції, до/після, майстерність)
+  function applyHomeMedia() {
+    document.querySelectorAll('[data-cms-img]').forEach(function (el) {
+      var key = el.getAttribute('data-cms-img');
+      var row = window.CMS.gallery.find(function (g) { return g.section && g.section.indexOf('home') === 0 && g.subcategory === key && g.url; });
+      if (!row) return; // лишаємо плейсхолдер
+      var isBa = (el.className || '').indexOf('ba__img') !== -1;
+      if (row.kind === 'video' && !isBa) {
+        var v = document.createElement('video');
+        v.src = row.url; v.autoplay = true; v.muted = true; v.loop = true;
+        v.setAttribute('playsinline', ''); v.setAttribute('preload', 'metadata');
+        if (el.className) v.className = el.className;
+        if (el.parentNode) el.parentNode.replaceChild(v, el);
+      } else {
+        el.src = row.url;
+      }
+    });
   }
 
   function applyTexts() {

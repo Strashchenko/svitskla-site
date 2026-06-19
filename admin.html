@@ -160,6 +160,19 @@ const FIELDS = [
 /* ---- Медіа-секції ---- */
 const SECTIONS = [
   {id:"works", l:"Відео «Наші виконані роботи»", kind:"works"},
+  {id:"home_products", l:"Головна: «Наша продукція» (фото/відео карток)", kind:"single", slots:[
+    ["prod_dushovi","Душові кабіни та перегородки"],["prod_shtorky","Шторки на ванну"],
+    ["prod_dzerkala","Дзеркала"],["prod_peregorodky","Перегородки та двері"],
+    ["prod_peryla","Перила"],["prod_fartuky","Кухонні фартуки"],
+    ["prod_fotodruk","Фотодрук та фарбування"],["prod_inshe","Інше"]]},
+  {id:"home_featured", l:"Головна: «Створено для життя» (до/після)", kind:"single", imageOnly:true, slots:[
+    ["ba_dushova_before","Душова кабіна Slider — ДО"],["ba_dushova_after","Душова кабіна Slider — ПІСЛЯ"],
+    ["ba_dzerkalo_before","Кругле дзеркало з LED — ДО"],["ba_dzerkalo_after","Кругле дзеркало з LED — ПІСЛЯ"],
+    ["ba_peryla_before","Скляні перила — ДО"],["ba_peryla_after","Скляні перила — ПІСЛЯ"],
+    ["ba_rama_before","Дзеркало в рамі — ДО"],["ba_rama_after","Дзеркало в рамі — ПІСЛЯ"]]},
+  {id:"home_craft", l:"Головна: «Наша майстерність» (фото/відео)", kind:"single", slots:[
+    ["craft_zamir","Замір та проєкт"],["craft_vyrobnytstvo","Виробництво"],
+    ["craft_montazh","Монтаж під ключ"],["craft_vidhuky","Відгуки клієнтів"]]},
   {id:"catalog_dushovi", l:"Каталог: Душові кабіни та перегородки", kind:"image", subs:[["rozpashni","Розпашні"],["rozsuvni","Розсувні"],["statsionarni","Стаціонарні"],["slider","Slider"]]},
   {id:"catalog_shtorky", l:"Каталог: Шторки на ванну", kind:"image", subs:[["statsionarni","Стаціонарні"],["rozsuvni","Розсувні"],["rozpashni","Розпашні"]]},
   {id:"catalog_dzerkala", l:"Каталог: Дзеркала", kind:"image", subs:[["pidsvitka","З підсвіткою"],["rama","В рамах"],["panno","Дзеркальне панно"]]},
@@ -249,6 +262,16 @@ function renderAddArea(){
       '<div style="margin-top:.8rem"><button id="addWorks">Зберегти відео</button></div>'+
       '<div class="hint">Порада: вертикальне відео (9:16), до ~15 секунд.</div>';
     $('#addWorks').onclick=addWorks;
+  } else if(s.kind==='single'){
+    const acc = s.imageOnly ? 'image/*' : 'image/*,video/*';
+    const note = s.imageOnly ? 'Тільки фото (порівняння до/після).' : 'Можна фото або коротке відео (9:16, до ~15 сек). Відео гратиме без звуку, по колу.';
+    area.innerHTML =
+      '<label>Місце (слот)</label><select id="slotSel">'+
+        s.slots.map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join('')+'</select>'+
+      '<label>Файл</label><input id="slotFile" type="file" accept="'+acc+'">'+
+      '<div style="margin-top:.8rem"><button id="addSingle">Зберегти у слот</button></div>'+
+      '<div class="hint">'+note+' Нове завантаження замінює попереднє у цьому слоті.</div>';
+    $('#addSingle').onclick=addSingle;
   } else {
     let subHtml='';
     if(s.subs && s.subs.length){
@@ -267,6 +290,7 @@ async function renderMedia(){
   const s=curSection(); const list=$('#mediaList'); list.innerHTML='Завантаження…';
   const { data } = await db.from('gallery').select('*').eq('section', s.id).order('position',{ascending:true});
   list.innerHTML='';
+  if(s.kind==='single'){ renderSingleSlots(s, data||[], list); return; }
   if(!data || !data.length){ list.innerHTML='<div class="hint">Поки що порожньо. Додайте фото або відео вище.</div>'; return; }
   data.forEach((it,i)=>{
     const d=document.createElement('div'); d.className='media-item';
@@ -281,6 +305,48 @@ async function renderMedia(){
     act.appendChild(up); act.appendChild(dn); act.appendChild(del); body.appendChild(act);
     d.appendChild(body); list.appendChild(d);
   });
+}
+
+function renderSingleSlots(s, data, list){
+  s.slots.forEach(function(slot){
+    const key=slot[0], label=slot[1];
+    const it = data.find(function(r){ return r.subcategory===key; });
+    const d=document.createElement('div'); d.className='media-item';
+    let media;
+    if(it && it.kind==='video'){ media=document.createElement('video'); media.src=it.url; media.muted=true; media.loop=true; media.autoplay=true; media.setAttribute('playsinline',''); }
+    else if(it){ media=document.createElement('img'); media.src=it.url; }
+    else { media=document.createElement('div'); media.textContent='— порожньо —'; media.style.display='grid'; media.style.placeItems='center'; media.style.color='#6C7886'; media.style.fontSize='.8rem'; }
+    media.style.width='100%'; media.style.aspectRatio='9/16'; media.style.objectFit='cover'; media.style.background='#0C0E12'; if(!it) media.style.background='#EAF3F8';
+    d.appendChild(media);
+    const body=document.createElement('div'); body.className='mi-body';
+    const t=document.createElement('span'); t.style.fontWeight='700'; t.style.color='#0C0E12'; t.textContent=label; body.appendChild(t);
+    if(it && it.kind==='video'){ const vt=document.createElement('span'); vt.className='vidtag'; vt.textContent='ВІДЕО'; body.appendChild(vt); }
+    if(it){ const act=document.createElement('div'); act.className='mi-actions';
+      const del=document.createElement('button'); del.className='danger sm'; del.textContent='Видалити'; del.onclick=()=>delItem(it);
+      act.appendChild(del); body.appendChild(act); }
+    d.appendChild(body); list.appendChild(d);
+  });
+}
+
+async function addSingle(){
+  const s=curSection(); const slot=$('#slotSel').value; const file=$('#slotFile').files[0];
+  if(!file){ $('#mediaStatus').textContent='Оберіть файл'; return; }
+  const isVideo = /^video\//.test(file.type);
+  if(s.imageOnly && isVideo){ $('#mediaStatus').textContent='Сюди можна лише фото'; return; }
+  $('#mediaStatus').textContent='Завантаження…';
+  const path = s.id+'/'+slot+'_'+Date.now()+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'');
+  const up = await db.storage.from('media').upload(path, file, {upsert:false});
+  if(up.error){ $('#mediaStatus').textContent='Помилка: '+up.error.message; return; }
+  const url = db.storage.from('media').getPublicUrl(path).data.publicUrl;
+  // прибрати попередній файл і запис у цьому слоті
+  const { data:old } = await db.from('gallery').select('id,storage_path').eq('section',s.id).eq('subcategory',slot);
+  if(old && old.length){ const paths=old.map(o=>o.storage_path).filter(Boolean); if(paths.length) await db.storage.from('media').remove(paths); await db.from('gallery').delete().eq('section',s.id).eq('subcategory',slot); }
+  const pos = s.slots.findIndex(x=>x[0]===slot);
+  const ins = await db.from('gallery').insert({ section:s.id, subcategory:slot, kind:isVideo?'video':'image', url, storage_path:path, position:pos });
+  $('#mediaStatus').textContent = ins.error?('Помилка: '+ins.error.message):'Збережено ✓';
+  setTimeout(()=>{$('#mediaStatus').textContent='';},2200);
+  $('#slotFile').value='';
+  renderMedia();
 }
 
 async function addPhotos(){
