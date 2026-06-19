@@ -160,6 +160,9 @@ const FIELDS = [
 /* ---- Медіа-секції ---- */
 const SECTIONS = [
   {id:"works", l:"Відео «Наші виконані роботи»", kind:"works"},
+  {id:"home_hero", l:"Головна: Головний банер (4 відео слайдів)", kind:"single", videoOnly:true, slots:[
+    ["hero1","Слайд 1 — Душові перегородки"],["hero2","Слайд 2 — Дзеркала з підсвіткою"],
+    ["hero3","Слайд 3 — Скляні перила"],["hero4","Слайд 4 — Шторки на ванну"]]},
   {id:"home_products", l:"Головна: «Наша продукція» (фото/відео карток)", kind:"single", slots:[
     ["prod_dushovi","Душові кабіни та перегородки"],["prod_shtorky","Шторки на ванну"],
     ["prod_dzerkala","Дзеркала"],["prod_peregorodky","Перегородки та двері"],
@@ -263,8 +266,9 @@ function renderAddArea(){
       '<div class="hint">Порада: вертикальне відео (9:16), до ~15 секунд.</div>';
     $('#addWorks').onclick=addWorks;
   } else if(s.kind==='single'){
-    const acc = s.imageOnly ? 'image/*' : 'image/*,video/*';
-    const note = s.imageOnly ? 'Тільки фото (порівняння до/після).' : 'Можна фото або коротке відео (9:16, до ~15 сек). Відео гратиме без звуку, по колу.';
+    const acc = s.videoOnly ? 'video/*' : (s.imageOnly ? 'image/*' : 'image/*,video/*');
+    const note = s.videoOnly ? 'Тільки відео (9:16, до ~15 сек). Гратиме без звуку, по колу.'
+      : (s.imageOnly ? 'Тільки фото (порівняння до/після).' : 'Можна фото або коротке відео (9:16, до ~15 сек). Відео гратиме без звуку, по колу.');
     area.innerHTML =
       '<label>Місце (слот)</label><select id="slotSel">'+
         s.slots.map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join('')+'</select>'+
@@ -333,6 +337,7 @@ async function addSingle(){
   if(!file){ $('#mediaStatus').textContent='Оберіть файл'; return; }
   const isVideo = /^video\//.test(file.type);
   if(s.imageOnly && isVideo){ $('#mediaStatus').textContent='Сюди можна лише фото'; return; }
+  if(s.videoOnly && !isVideo){ $('#mediaStatus').textContent='Сюди можна лише відео'; return; }
   $('#mediaStatus').textContent='Завантаження…';
   const path = s.id+'/'+slot+'_'+Date.now()+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'');
   const up = await db.storage.from('media').upload(path, file, {upsert:false});
