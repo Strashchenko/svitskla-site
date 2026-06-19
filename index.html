@@ -620,6 +620,12 @@ const pauseBtn=document.getElementById('heroPause');let paused=false;
 if(pauseBtn)pauseBtn.addEventListener('click',()=>{paused=!paused;if(paused){stop();pauseBtn.textContent='▶';pauseBtn.setAttribute('aria-label','Відтворити');}else{play();pauseBtn.textContent='⏸';pauseBtn.setAttribute('aria-label','Пауза');}});
 if(slides.length){go(0);play();}
 
+/* swipe гортання слайдів (моб.) */
+if(track){let sx=null,sy=null;
+  track.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+  track.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){go(dx<0?idx+1:idx-1);if(!paused)play();}sx=sy=null;},{passive:true});
+}
+
 /* before/after sliders */
 document.querySelectorAll('[data-ba]').forEach(ba=>{const range=ba.querySelector('.ba__range');const set=v=>ba.style.setProperty('--pos',v+'%');if(range){range.addEventListener('input',()=>set(range.value));set(range.value);}});
 

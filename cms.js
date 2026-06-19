@@ -37,15 +37,21 @@
       var row = window.CMS.gallery.find(function (g) { return g.section && g.section.indexOf('home') === 0 && g.subcategory === key && g.url; });
       if (!row) return; // лишаємо плейсхолдер
       var isBa = (el.className || '').indexOf('ba__img') !== -1;
+      var ph = el.closest ? el.closest('.ph') : null;
       if (row.kind === 'video' && !isBa) {
         var v = document.createElement('video');
-        v.src = row.url; v.autoplay = true; v.muted = true; v.loop = true;
-        v.setAttribute('playsinline', ''); v.setAttribute('preload', 'metadata');
+        v.muted = true; v.defaultMuted = true; v.autoplay = true; v.loop = true;
+        v.setAttribute('muted', ''); v.setAttribute('autoplay', '');
+        v.setAttribute('loop', ''); v.setAttribute('playsinline', '');
+        v.setAttribute('webkit-playsinline', ''); v.setAttribute('preload', 'auto');
+        v.controls = false; v.src = row.url;
         if (el.className) v.className = el.className;
         if (el.parentNode) el.parentNode.replaceChild(v, el);
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
       } else {
         el.src = row.url;
       }
+      if (ph) { ph.classList.remove('ph'); ph.classList.remove('ph--video'); }
     });
   }
 
