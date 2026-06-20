@@ -239,6 +239,7 @@ function placeholders(){var html='';for(var i=0;i<8;i++){var t=types[i%types.len
 function renderPhotos(rows){grid.innerHTML=rows.map(function(r){var t=r.subcategory||'item';return '<a href="'+r.url+'" target="_blank" rel="noopener" class="pcard" data-type="'+t+'"><div class="pcard__media"><img src="'+r.url+'" alt="Фото" loading="lazy"></div></a>';}).join('');}
 (window.CMS&&window.CMS.ready?window.CMS.ready:Promise.resolve()).then(function(){
   var rows=((window.CMS&&window.CMS.gallery)||[]).filter(function(g){return g.section==='catalog_'+key&&g.kind==='image';});
+  rows.sort(function(a,b){return (b.position||0)-(a.position||0);}); // новіші (більший position) — першими
   if(rows.length){renderPhotos(rows);}else{placeholders();}
 });
 document.addEventListener('click',function(e){
