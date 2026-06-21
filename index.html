@@ -156,11 +156,11 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 .craft-section .section-label{display:block;max-width:1200px;margin:0 auto;color:var(--c-aqua)}
 .craft-section h2{max-width:1200px;margin:1.5rem auto 3.5rem;text-align:left;font-size:clamp(1.6rem,3vw,2.75rem);color:#fff;position:relative}
 .craft-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;max-width:1200px;margin:0 auto;position:relative}
-@media(min-width:768px){.craft-grid{grid-template-columns:repeat(4,1fr);gap:2rem}}
+@media(min-width:768px){.craft-grid{grid-template-columns:repeat(2,minmax(0,340px));justify-content:center;gap:2.5rem}}
 .craft-card a{text-decoration:none;display:block;color:#fff}
 .craft-card__media{position:relative;aspect-ratio:9/16;overflow:hidden;border-radius:4px;background:var(--c-graphite)}
-.reviews-next{position:absolute;bottom:.8rem;right:.8rem;width:2.6rem;height:2.6rem;border-radius:50%;border:none;cursor:pointer;background:var(--grad);color:#fff;font-size:1.15rem;line-height:1;display:grid;place-items:center;z-index:3;box-shadow:0 4px 14px rgba(0,0,0,.4)}
-.reviews-next:hover{filter:brightness(1.08)}
+.reviews-next{position:absolute;bottom:1rem;right:1rem;width:3.1rem;height:3.1rem;border-radius:50%;border:2px solid #fff;cursor:pointer;background:var(--c-aqua);color:#fff;font-size:1.5rem;line-height:1;display:grid;place-items:center;z-index:3;box-shadow:0 6px 18px rgba(21,201,234,.55)}
+.reviews-next:hover{background:var(--c-azure);transform:scale(1.06)}
 .reviews-next:active{transform:scale(.94)}
 .craft-card__media img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .craft-card:hover .craft-card__media img{transform:scale(1.05)}
@@ -496,19 +496,11 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
     <h2 data-cms="craft_heading">Прозорі рішення зі скла — під ключ. Поєднуємо інженерну точність із чистою естетикою скла: від заміру до монтажу.</h2>
     <div class="craft-grid">
       <article class="craft-card">
-        <a href="#contacts"><div class="craft-card__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%2315C9EA%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A4%D0%9E%D0%A2%D0%9E%20%3A%20%D0%97%D0%B0%D0%BC%D1%96%D1%80%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Замір" data-cms-img="craft_zamir"></div>
-        <div class="craft-card__body"><h3 data-cms="craft_card1_title">Замір та проєкт</h3><p class="craft-card__desc" data-cms="craft_card1_desc">Виїжджаємо на об'єкт, знімаємо точні розміри та готуємо рішення під ваш простір.</p></div></a>
-      </article>
-      <article class="craft-card">
         <a href="#contacts"><div class="craft-card__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%2328A6DE%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A4%D0%9E%D0%A2%D0%9E%20%3A%20%D0%92%D0%B8%D1%80%D0%BE%D0%B1%D0%BD%D0%B8%D1%86%D1%82%D0%B2%D0%BE%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Виробництво" data-cms-img="craft_vyrobnytstvo"></div>
         <div class="craft-card__body"><h3 data-cms="craft_card2_title">Виробництво</h3><p class="craft-card__desc" data-cms="craft_card2_desc">Загартоване скло, якісна фурнітура та обробка кромки — за фірмовими стандартами.</p></div></a>
       </article>
       <article class="craft-card">
-        <a href="#contacts"><div class="craft-card__media ph"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23191D24%27%2F%3E%3Ctext%20fill%3D%27%234E54C6%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A4%D0%9E%D0%A2%D0%9E%20%3A%20%D0%9C%D0%BE%D0%BD%D1%82%D0%B0%D0%B6%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Монтаж" data-cms-img="craft_montazh"></div>
-        <div class="craft-card__body"><h3 data-cms="craft_card3_title">Монтаж під ключ</h3><p class="craft-card__desc" data-cms="craft_card3_desc">Встановлюємо чисто й надійно. Ви отримуєте готовий результат без зайвих турбот.</p></div></a>
-      </article>
-      <article class="craft-card">
-        <div class="craft-card__media ph" data-reviews><img class="reviews-img" src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A4%D0%9E%D0%A2%D0%9E%20%3A%20%D0%92%D1%96%D0%B4%D0%B3%D1%83%D0%BA%D0%B8%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Відгук клієнта"><button class="reviews-next" type="button" aria-label="Наступний відгук" style="display:none">→</button></div>
+        <div class="craft-card__media ph" data-reviews><img class="reviews-img" src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A4%D0%9E%D0%A2%D0%9E%20%3A%20%D0%92%D1%96%D0%B4%D0%B3%D1%83%D0%BA%D0%B8%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Відгук клієнта"><button class="reviews-next" type="button" aria-label="Наступний відгук">→</button></div>
         <div class="craft-card__body"><h3 data-cms="craft_card4_title">Відгуки клієнтів</h3><p class="craft-card__desc" data-cms="craft_card4_desc">Реальні історії та результати клієнтів — про якість, терміни та сервіс.</p></div>
       </article>
     </div>
