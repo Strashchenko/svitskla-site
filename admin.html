@@ -32,9 +32,6 @@
   .media-item img{width:100%;aspect-ratio:9/16;object-fit:cover;background:#0C0E12}
   .media-item .mi-body{padding:.5rem;font-size:.8rem;color:var(--muted);display:flex;flex-direction:column;gap:.4rem}
   .media-item .mi-actions{display:flex;gap:.3rem;flex-wrap:wrap}
-  .drag-handle{cursor:grab;touch-action:none;user-select:none;background:var(--soft)!important;border-color:var(--azure)!important;color:var(--azure)!important;font-weight:700}
-  .drag-handle:active{cursor:grabbing}
-  .media-item.dragging{opacity:.45;outline:2px dashed var(--azure);outline-offset:-2px}
   .vidtag{display:inline-block;background:var(--ink);color:#fff;font-size:.7rem;padding:.15rem .4rem;border-radius:4px}
   #login{max-width:380px;margin:8vh auto;padding:1.5rem}
   #app{display:none}
@@ -309,62 +306,18 @@ async function renderMedia(){
   if(s.kind==='single'){ renderSingleSlots(s, data||[], list); return; }
   if(!data || !data.length){ list.innerHTML='<div class="hint">Поки що порожньо. Додайте фото або відео вище.</div>'; return; }
   data.forEach((it,i)=>{
-    const d=document.createElement('div'); d.className='media-item'; d.dataset.id=it.id;
+    const d=document.createElement('div'); d.className='media-item';
     var media; if(it.kind==='video'){ media=document.createElement('video'); media.src=it.url; media.muted=true; media.loop=true; media.autoplay=true; media.setAttribute('playsinline',''); } else { media=document.createElement('img'); media.src=it.url; } media.style.width='100%'; media.style.aspectRatio='9/16'; media.style.objectFit='cover'; media.style.background='#0C0E12'; d.appendChild(media);
     const body=document.createElement('div'); body.className='mi-body';
     if(it.kind==='video'){ const t=document.createElement('span'); t.className='vidtag'; t.textContent='ВІДЕО · '+(it.subcategory==='instagram'?'Instagram':'TikTok'); body.appendChild(t); const cap=document.createElement('span'); cap.textContent=it.caption||''; body.appendChild(cap); }
     else if(it.subcategory){ const t=document.createElement('span'); t.textContent='Підкатегорія: '+it.subcategory; body.appendChild(t); }
     const act=document.createElement('div'); act.className='mi-actions';
-    const drag=document.createElement('button'); drag.className='ghost sm drag-handle'; drag.type='button'; drag.textContent='⠿ тягни'; drag.title='Перетягнути для зміни порядку';
     const up=document.createElement('button'); up.className='ghost sm'; up.textContent='↑'; up.onclick=()=>move(it,data[i-1]); if(i===0)up.disabled=true;
     const dn=document.createElement('button'); dn.className='ghost sm'; dn.textContent='↓'; dn.onclick=()=>move(it,data[i+1]); if(i===data.length-1)dn.disabled=true;
     const del=document.createElement('button'); del.className='danger sm'; del.textContent='Видалити'; del.onclick=()=>delItem(it);
-    act.appendChild(drag); act.appendChild(up); act.appendChild(dn); act.appendChild(del); body.appendChild(act);
+    act.appendChild(up); act.appendChild(dn); act.appendChild(del); body.appendChild(act);
     d.appendChild(body); list.appendChild(d);
   });
-  enableDragReorder(list, s.id);
-}
-
-/* ---------- ПЕРЕТЯГУВАННЯ ФОТО (миша + тач) ---------- */
-function enableDragReorder(list, sectionId){
-  var dragEl=null;
-  list.querySelectorAll('.drag-handle').forEach(function(h){
-    h.addEventListener('pointerdown', function(e){
-      e.preventDefault();
-      dragEl = h.closest('.media-item');
-      if(!dragEl) return;
-      dragEl.classList.add('dragging');
-      try{ h.setPointerCapture(e.pointerId); }catch(_){}
-    });
-    h.addEventListener('pointermove', function(e){
-      if(!dragEl) return;
-      dragEl.style.pointerEvents='none';
-      var t=document.elementFromPoint(e.clientX, e.clientY);
-      dragEl.style.pointerEvents='';
-      var over = t && t.closest ? t.closest('.media-item') : null;
-      if(!over || over===dragEl || !list.contains(over)) return;
-      var box=over.getBoundingClientRect();
-      if(e.clientY < box.top + box.height/2) list.insertBefore(dragEl, over);
-      else list.insertBefore(dragEl, over.nextSibling);
-    });
-    function end(e){
-      if(!dragEl) return;
-      dragEl.classList.remove('dragging'); dragEl=null;
-      try{ h.releasePointerCapture(e.pointerId); }catch(_){}
-      persistOrder(list, sectionId);
-    }
-    h.addEventListener('pointerup', end);
-    h.addEventListener('pointercancel', function(){ if(dragEl){dragEl.classList.remove('dragging');dragEl=null;} });
-  });
-}
-async function persistOrder(list, sectionId){
-  var ids=[].slice.call(list.querySelectorAll('.media-item')).map(function(d){return d.dataset.id;}).filter(Boolean);
-  if(!ids.length) return;
-  $('#mediaStatus').textContent='Збереження порядку…';
-  for(var i=0;i<ids.length;i++){ await db.from('gallery').update({position:i}).eq('id', ids[i]); }
-  $('#mediaStatus').textContent='Порядок збережено ✓';
-  setTimeout(function(){$('#mediaStatus').textContent='';},1800);
-  renderMedia();
 }
 
 function renderSingleSlots(s, data, list){
