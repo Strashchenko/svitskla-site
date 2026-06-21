@@ -301,7 +301,7 @@ function renderAddArea(){
 async function renderMedia(){
   renderAddArea();
   const s=curSection(); const list=$('#mediaList'); list.innerHTML='Завантаження…';
-  const { data } = await db.from('gallery').select('*').eq('section', s.id).order('position',{ascending:true});
+  const { data } = await db.from('gallery').select('*').eq('section', s.id).order('position',{ascending:false});
   list.innerHTML='';
   if(s.kind==='single'){ renderSingleSlots(s, data||[], list); return; }
   if(!data || !data.length){ list.innerHTML='<div class="hint">Поки що порожньо. Додайте фото або відео вище.</div>'; return; }

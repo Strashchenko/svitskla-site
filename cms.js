@@ -38,7 +38,7 @@
     var img = box.querySelector('.reviews-img');
     var btn = box.querySelector('.reviews-next');
     var rows = window.CMS.gallery.filter(function (g) { return g.section === 'reviews' && g.kind === 'image' && g.url; });
-    rows.sort(function (a, b) { return (a.position || 0) - (b.position || 0); });
+    rows.sort(function (a, b) { return (b.position || 0) - (a.position || 0); }); // новіші першими
     if (!rows.length) return; // лишаємо плейсхолдер; стрілка лишається видимою
     box.classList.remove('ph'); box.classList.remove('ph--video');
     var i = 0;
