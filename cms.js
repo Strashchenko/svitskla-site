@@ -27,7 +27,31 @@
     applyTexts();
     applyWorks();
     applyHomeMedia();
+    applyReviews();
     return window.CMS;
+  }
+
+  // Гортанка відгуків клієнтів: скріни з секції 'reviews', стрілка → наступний
+  function applyReviews() {
+    var box = document.querySelector('[data-reviews]');
+    if (!box) return;
+    var rows = window.CMS.gallery.filter(function (g) { return g.section === 'reviews' && g.kind === 'image' && g.url; });
+    rows.sort(function (a, b) { return (a.position || 0) - (b.position || 0); });
+    if (!rows.length) return; // лишаємо плейсхолдер
+    box.classList.remove('ph'); box.classList.remove('ph--video');
+    var img = box.querySelector('.reviews-img');
+    var btn = box.querySelector('.reviews-next');
+    var i = 0;
+    function show(n) { i = (n + rows.length) % rows.length; if (img) img.src = rows[i].url; }
+    show(0);
+    if (btn) {
+      if (rows.length > 1) {
+        btn.style.display = '';
+        btn.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); show(i + 1); });
+      } else {
+        btn.style.display = 'none';
+      }
+    }
   }
 
   // Медіа головної сторінки: фіксовані слоти (картки продукції, до/після, майстерність)
