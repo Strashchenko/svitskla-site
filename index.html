@@ -159,9 +159,11 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 @media(min-width:768px){.craft-grid{grid-template-columns:repeat(2,minmax(0,340px));justify-content:center;gap:2.5rem}}
 .craft-card a{text-decoration:none;display:block;color:#fff}
 .craft-card__media{position:relative;aspect-ratio:9/16;overflow:hidden;border-radius:4px;background:var(--c-graphite)}
-.reviews-next{position:absolute;bottom:1rem;right:1rem;width:3.1rem;height:3.1rem;border-radius:50%;border:2px solid #fff;cursor:pointer;background:var(--c-aqua);color:#fff;font-size:1.5rem;line-height:1;display:grid;place-items:center;z-index:3;box-shadow:0 6px 18px rgba(21,201,234,.55)}
-.reviews-next:hover{background:var(--c-azure);transform:scale(1.06)}
-.reviews-next:active{transform:scale(.94)}
+.reviews-next,.reviews-prev{position:absolute;bottom:1rem;width:3.1rem;height:3.1rem;border-radius:50%;border:2px solid #fff;cursor:pointer;background:var(--c-aqua);color:#fff;font-size:1.5rem;line-height:1;display:grid;place-items:center;z-index:3;box-shadow:0 6px 18px rgba(21,201,234,.55)}
+.reviews-next{right:1rem}
+.reviews-prev{left:1rem}
+.reviews-next:hover,.reviews-prev:hover{background:var(--c-azure);transform:scale(1.06)}
+.reviews-next:active,.reviews-prev:active{transform:scale(.94)}
 .craft-card__media img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .craft-card:hover .craft-card__media img{transform:scale(1.05)}
 .craft-card__body{padding-top:1.1rem}
@@ -514,7 +516,7 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
         <div class="craft-card__body"><h3 data-cms="craft_card2_title">Виробництво</h3><p class="craft-card__desc" data-cms="craft_card2_desc">Загартоване скло, якісна фурнітура та обробка кромки — за фірмовими стандартами.</p></div></a>
       </article>
       <article class="craft-card">
-        <div class="craft-card__media ph" data-reviews><img class="reviews-img" src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A4%D0%9E%D0%A2%D0%9E%20%3A%20%D0%92%D1%96%D0%B4%D0%B3%D1%83%D0%BA%D0%B8%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Відгук клієнта"><button class="reviews-next" type="button" aria-label="Наступний відгук">→</button></div>
+        <div class="craft-card__media ph" data-reviews><img class="reviews-img" src="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%271280%27%20viewBox%3D%270%200%20720%201280%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%230C0E12%27%2F%3E%3Ctext%20fill%3D%27%233A80D2%27%20font-family%3D%27Manrope%2CArial%2Csans-serif%27%20font-size%3D%2754%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%3E%3Ctspan%20x%3D%2750%25%27%20y%3D%27649%27%3E%D0%A4%D0%9E%D0%A2%D0%9E%20%3A%20%D0%92%D1%96%D0%B4%D0%B3%D1%83%D0%BA%D0%B8%3C%2Ftspan%3E%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Відгук клієнта"><button class="reviews-prev" type="button" aria-label="Попередній відгук">←</button><button class="reviews-next" type="button" aria-label="Наступний відгук">→</button></div>
         <div class="craft-card__body"><h3 data-cms="craft_card4_title">Відгуки клієнтів</h3><p class="craft-card__desc" data-cms="craft_card4_desc">Реальні історії та результати клієнтів — про якість, терміни та сервіс.</p></div>
       </article>
     </div>

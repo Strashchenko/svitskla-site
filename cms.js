@@ -37,6 +37,7 @@
     if (!box) return;
     var img = box.querySelector('.reviews-img');
     var btn = box.querySelector('.reviews-next');
+    var btnPrev = box.querySelector('.reviews-prev');
     var rows = window.CMS.gallery.filter(function (g) { return g.section === 'reviews' && g.kind === 'image' && g.url; });
     rows.sort(function (a, b) { return (b.position || 0) - (a.position || 0); }); // новіші першими
     if (!rows.length) return; // лишаємо плейсхолдер; стрілка лишається видимою
@@ -45,6 +46,7 @@
     function show(n) { i = (n + rows.length) % rows.length; if (img) img.src = rows[i].url; }
     show(0);
     if (btn) btn.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); show(i + 1); });
+    if (btnPrev) btnPrev.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); show(i - 1); });
   }
 
   // Медіа головної сторінки: фіксовані слоти (картки продукції, до/після, майстерність)
