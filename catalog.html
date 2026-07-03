@@ -4,7 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Душові перегородки — каталог | Світскла Сервіс</title>
-<meta name="description" content="Каталог скляних душових перегородок на замовлення: розпашні, розсувні, безпрофільні. Виготовлення та монтаж під ключ.">
+<meta id="metaDesc" name="description" content="Каталог виробів зі скла на замовлення від Світскла Сервіс, Київ. Виготовлення та монтаж під ключ.">
+<link id="canonical" rel="canonical" href="https://svitskla.com.ua/catalog.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Світскла Сервіс">
+<meta id="ogTitle" property="og:title" content="Каталог — Світскла Сервіс">
+<meta id="ogDesc" property="og:description" content="Вироби зі скла на замовлення: душові, дзеркала, перила, перегородки.">
+<meta id="ogUrl" property="og:url" content="https://svitskla.com.ua/catalog.html">
+<meta property="og:image" content="https://svitskla.com.ua/assets/logo-lockup.png">
+<meta property="og:locale" content="uk_UA">
+<meta name="twitter:card" content="summary_large_image">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -259,6 +268,19 @@ document.getElementById('catLead').textContent=cat.lead;
 document.getElementById('crumbCat').textContent=cat.title;
 document.title=cat.title+" — каталог | Світскла Сервіс";
 
+// SEO: мета-теги під категорію
+(function(){
+  var url="https://svitskla.com.ua/catalog.html?cat="+key;
+  var mD=document.getElementById('metaDesc'); if(mD)mD.setAttribute('content',cat.lead);
+  var oT=document.getElementById('ogTitle'); if(oT)oT.setAttribute('content',cat.title+" — Світскла Сервіс");
+  var oD=document.getElementById('ogDesc'); if(oD)oD.setAttribute('content',cat.lead);
+  var oU=document.getElementById('ogUrl'); if(oU)oU.setAttribute('content',url);
+  var cn=document.getElementById('canonical'); if(cn)cn.setAttribute('href',url);
+})();
+// Описові підписи (alt) до фото за підкатегоріями
+var subMap={}; (cat.filters||[]).forEach(function(f){subMap[f[0]]=f[1];});
+function photoAlt(t){ var lbl=subMap[t]; return cat.title + (lbl?(' — '+lbl):'') + ' — Світскла Сервіс, Київ'; }
+
 const fb=document.getElementById('filterBar');
 let chips=(cat.filters&&cat.filters.length)?cat.filters.slice():[];
 chips.push(["all","Усі"]);
@@ -267,8 +289,8 @@ else{fb.style.display='none';}
 
 const grid=document.getElementById('grid');
 const types=(cat.filters&&cat.filters.length)?cat.filters.map(function(f){return f[0];}):['item'];
-function placeholders(){var html='';for(var i=0;i<8;i++){var t=types[i%types.length];html+='<a href="#" class="pcard" data-type="'+t+'"><div class="pcard__media ph"><img src="'+ph(i)+'" alt="Фото"></div></a>';}grid.innerHTML=html;}
-function renderPhotos(rows){grid.innerHTML=rows.map(function(r){var t=r.subcategory||'item';return '<a href="'+r.url+'" class="pcard" data-type="'+t+'"><div class="pcard__media"><img src="'+r.url+'" alt="Фото" loading="lazy"></div></a>';}).join('');}
+function placeholders(){var html='';for(var i=0;i<8;i++){var t=types[i%types.length];html+='<a href="#" class="pcard" data-type="'+t+'"><div class="pcard__media ph"><img src="'+ph(i)+'" alt="'+photoAlt(t)+'"></div></a>';}grid.innerHTML=html;}
+function renderPhotos(rows){grid.innerHTML=rows.map(function(r){var t=r.subcategory||'item';return '<a href="'+r.url+'" class="pcard" data-type="'+t+'"><div class="pcard__media"><img src="'+r.url+'" alt="'+photoAlt(t)+'" loading="lazy"></div></a>';}).join('');}
 (window.CMS&&window.CMS.ready?window.CMS.ready:Promise.resolve()).then(function(){
   var rows=((window.CMS&&window.CMS.gallery)||[]).filter(function(g){return g.section==='catalog_'+key&&g.kind==='image';});
   rows.sort(function(a,b){return (b.position||0)-(a.position||0);}); // новіші (більший position) — першими
@@ -291,10 +313,11 @@ var lb=document.createElement('div'); lb.id='lightbox'; lb.innerHTML=
   '<div class="lb-count"></div>';
 document.body.appendChild(lb);
 var lbImg=lb.querySelector('.lb-img'), lbCount=lb.querySelector('.lb-count');
-var lbList=[], lbIdx=0;
-function lbShow(n){ if(!lbList.length)return; lbIdx=(n+lbList.length)%lbList.length; lbImg.src=lbList[lbIdx]; lbCount.textContent=(lbIdx+1)+' / '+lbList.length; }
+var lbList=[], lbAlts=[], lbIdx=0;
+function lbShow(n){ if(!lbList.length)return; lbIdx=(n+lbList.length)%lbList.length; lbImg.src=lbList[lbIdx]; lbImg.alt=lbAlts[lbIdx]||''; lbCount.textContent=(lbIdx+1)+' / '+lbList.length; }
 function lbOpen(card){
   var cards=Array.prototype.filter.call(grid.children,function(c){return c.style.display!=='none';});
+  lbAlts=cards.map(function(c){var im=c.querySelector('img');return im?im.alt:'';});
   lbList=cards.map(function(c){var im=c.querySelector('img');return im?im.src:'';}).filter(Boolean);
   var start=cards.indexOf(card); if(start<0)start=0;
   lbShow(start); lb.classList.add('open'); document.body.style.overflow='hidden';
