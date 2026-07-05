@@ -437,9 +437,9 @@ async function loadLeads(){
   if(!LEADS.length){ $('#leadsList').innerHTML='<div class="hint">Поки що немає заявок.</div>'; return; }
   var th='style="text-align:left;padding:.55rem;border-bottom:2px solid var(--border)"';
   var td='style="padding:.55rem;border-bottom:1px solid var(--border)"';
-  var h='<table style="width:100%;border-collapse:collapse;font-size:.92rem"><thead><tr><th '+th+'>Дата</th><th '+th+'>Імʼя</th><th '+th+'>Телефон</th><th '+th+'></th></tr></thead><tbody>';
+  var h='<table style="width:100%;border-collapse:collapse;font-size:.92rem"><thead><tr><th '+th+'>Дата</th><th '+th+'>Імʼя</th><th '+th+'>Телефон</th><th '+th+'>Коментар</th><th '+th+'></th></tr></thead><tbody>';
   LEADS.forEach(function(x){
-    h+='<tr><td '+td+'>'+fmtDate(x.created_at)+'</td><td '+td+'>'+escL(x.name)+'</td><td '+td+'>'+escL(x.phone)+'</td><td '+td+' align="right"><button class="danger sm" data-del="'+x.id+'">✕</button></td></tr>';
+    h+='<tr><td '+td+'>'+fmtDate(x.created_at)+'</td><td '+td+'>'+escL(x.name)+'</td><td '+td+'>'+escL(x.phone)+'</td><td '+td+'>'+escL(x.comment||'')+'</td><td '+td+' align="right"><button class="danger sm" data-del="'+x.id+'">✕</button></td></tr>';
   });
   h+='</tbody></table>';
   $('#leadsList').innerHTML=h;
@@ -448,9 +448,9 @@ async function loadLeads(){
 async function delLead(id){ if(!confirm('Видалити цю заявку?'))return; await db.from('leads').delete().eq('id',id); loadLeads(); }
 function exportLeads(){
   if(!LEADS.length){ $('#leadsStatus').textContent='Немає заявок для експорту'; setTimeout(function(){$('#leadsStatus').textContent='';},2000); return; }
-  var rows=[['Дата','Імʼя','Телефон']];
-  LEADS.forEach(function(x){ rows.push([fmtDate(x.created_at), x.name, x.phone]); });
-  var ws=XLSX.utils.aoa_to_sheet(rows); ws['!cols']=[{wch:18},{wch:24},{wch:20}];
+  var rows=[['Дата','Імʼя','Телефон','Коментар']];
+  LEADS.forEach(function(x){ rows.push([fmtDate(x.created_at), x.name, x.phone, x.comment||'']); });
+  var ws=XLSX.utils.aoa_to_sheet(rows); ws['!cols']=[{wch:18},{wch:24},{wch:20},{wch:40}];
   var wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'Заявки');
   XLSX.writeFile(wb,'zayavky.xlsx');
 }

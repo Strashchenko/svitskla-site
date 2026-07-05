@@ -226,8 +226,9 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 .lead-form h3 span{color:var(--c-azure)}
 .lead-form label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;color:var(--text-dark)}
 .lead-form .field{margin-bottom:1.1rem}
-.lead-form input{width:100%;background:var(--bg-soft);border:1px solid var(--border);border-radius:12px;padding:.95rem 1rem;font-family:inherit;font-size:1rem;color:var(--text-dark);outline:none;transition:border-color .2s}
-.lead-form input:focus{border-color:var(--c-azure)}
+.lead-form input,.lead-form textarea{width:100%;background:var(--bg-soft);border:1px solid var(--border);border-radius:12px;padding:.95rem 1rem;font-family:inherit;font-size:1rem;color:var(--text-dark);outline:none;transition:border-color .2s}
+.lead-form textarea{min-height:80px;resize:vertical}
+.lead-form input:focus,.lead-form textarea:focus{border-color:var(--c-azure)}
 .lead-form button{width:100%;border:none;cursor:pointer;background:var(--grad);color:#fff;font-family:inherit;font-weight:700;font-size:1.05rem;padding:1.05rem;border-radius:40px;box-shadow:0 12px 26px -8px rgba(58,128,210,.65);transition:transform .15s ease}
 .lead-form button:hover{transform:translateY(-1px)}
 .lead-form .consent{font-size:.78rem;color:var(--text-muted);text-align:center;margin-top:1rem;line-height:1.5}
@@ -449,6 +450,10 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
           <label for="leadPhone2">Ваш телефон:</label>
           <input id="leadPhone2" name="phone" type="tel" placeholder="+380 (__) ___ __ __" required autocomplete="tel">
         </div>
+        <div class="field">
+          <label for="leadComment2">Коментар (необов'язково):</label>
+          <textarea id="leadComment2" name="comment" placeholder="Напр.: передзвоніть після 18:00, потрібна душова 90×90..."></textarea>
+        </div>
         <button type="submit">Замовити розрахунок</button>
         <p class="consent">Натискаючи на кнопку, я даю згоду на обробку своїх персональних даних</p>
       </form>
@@ -576,6 +581,10 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
           <label for="leadPhone">Ваш телефон:</label>
           <input id="leadPhone" name="phone" type="tel" placeholder="+380 (__) ___ __ __" required autocomplete="tel">
         </div>
+        <div class="field">
+          <label for="leadComment">Коментар (необов'язково):</label>
+          <textarea id="leadComment" name="comment" placeholder="Напр.: передзвоніть після 18:00, потрібна душова 90×90..."></textarea>
+        </div>
         <button type="submit">Замовити розрахунок</button>
         <p class="consent">Натискаючи на кнопку, я даю згоду на обробку своїх персональних даних</p>
       </form>
@@ -695,10 +704,10 @@ if('IntersectionObserver' in window){
 document.querySelectorAll('.lead-form form').forEach(function(form){
   form.addEventListener('submit',async function(e){
     e.preventDefault();
-    var nEl=form.querySelector('[name="name"]'), pEl=form.querySelector('[name="phone"]');
-    var name=nEl?nEl.value.trim():'', phone=pEl?pEl.value.trim():'';
+    var nEl=form.querySelector('[name="name"]'), pEl=form.querySelector('[name="phone"]'), cEl=form.querySelector('[name="comment"]');
+    var name=nEl?nEl.value.trim():'', phone=pEl?pEl.value.trim():'', comment=cEl?cEl.value.trim():'';
     if(!name||!phone)return;
-    try{ if(window.CMS&&window.CMS.client){ await window.CMS.client.from('leads').insert({name:name,phone:phone}); } }catch(err){ console.warn('lead save',err); }
+    try{ if(window.CMS&&window.CMS.client){ await window.CMS.client.from('leads').insert({name:name,phone:phone,comment:comment||null}); } }catch(err){ console.warn('lead save',err); }
     var box=form.closest('.lead-form'); if(box)box.classList.add('sent');
   });
 });
