@@ -291,8 +291,8 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 
 /* placeholder badge */
 .ph{position:relative}
-.ph::before{content:"ФОТО";position:absolute;top:.5rem;left:.5rem;z-index:1;background:rgba(12,14,18,.7);color:#fff;font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.1em;padding:.2rem .45rem;border-radius:3px;pointer-events:none}
-.ph--video::before{content:"ВІДЕО"}
+.ph::before{display:none}
+.ph>img{opacity:0}
 </style>
 </head>
 <body>
