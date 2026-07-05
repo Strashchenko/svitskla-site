@@ -433,6 +433,32 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
     </div>
   </section>
 
+  <!-- ============================ CTA (дубль після продукції) ============================ -->
+  <section class="cta-strip">
+    <p class="section-label">Безкоштовна консультація</p>
+    <h2 data-cms="cta_title">Розрахуємо вартість вашого виробу зі скла або дзеркала</h2>
+    <a href="tel:+380981306396" class="btn btn--light">Зателефонувати: +38 098 130 63 96</a>
+    <div class="lead-form" id="leadForm2">
+      <form id="leadFormEl2" novalidate>
+        <h3>Заповніть форму <span>нижче</span></h3>
+        <div class="field">
+          <label for="leadName2">Ваше ім'я:</label>
+          <input id="leadName2" name="name" type="text" placeholder="Ваше ім'я*" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="leadPhone2">Ваш телефон:</label>
+          <input id="leadPhone2" name="phone" type="tel" placeholder="+380 (__) ___ __ __" required autocomplete="tel">
+        </div>
+        <button type="submit">Замовити розрахунок</button>
+        <p class="consent">Натискаючи на кнопку, я даю згоду на обробку своїх персональних даних</p>
+      </form>
+      <div class="lead-form__done">
+        <h3>Дякуємо!</h3>
+        <p>Ми зв'яжемося з вами найближчим часом для прорахунку.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ============================ 3. FEATURED ============================ -->
   <section class="featured-section">
     <p class="section-label">Вибрані роботи</p>
@@ -537,7 +563,7 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
   <!-- ============================ CTA ============================ -->
   <section class="cta-strip" id="contacts">
     <p class="section-label">Безкоштовна консультація</p>
-    <h2 data-cms="cta_title">Розрахуємо вартість вашого виробу зі скла</h2>
+    <h2 data-cms="cta_title">Розрахуємо вартість вашого виробу зі скла або дзеркала</h2>
     <a href="tel:+380981306396" class="btn btn--light">Зателефонувати: +38 098 130 63 96</a>
     <div class="lead-form" id="leadForm">
       <form id="leadFormEl" novalidate>
@@ -665,9 +691,17 @@ if('IntersectionObserver' in window){
   document.querySelectorAll('[data-ba]').forEach(ba=>baIO.observe(ba));
 }
 
-/* lead form (demo) */
-const leadEl=document.getElementById('leadFormEl');
-if(leadEl)leadEl.addEventListener('submit',async e=>{e.preventDefault();const name=document.getElementById('leadName').value.trim();const phone=document.getElementById('leadPhone').value.trim();if(!name||!phone)return;try{if(window.CMS&&window.CMS.client){await window.CMS.client.from('leads').insert({name:name,phone:phone});}}catch(err){console.warn('lead save',err);}document.getElementById('leadForm').classList.add('sent');});
+/* lead forms (усі форми на сторінці) */
+document.querySelectorAll('.lead-form form').forEach(function(form){
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    var nEl=form.querySelector('[name="name"]'), pEl=form.querySelector('[name="phone"]');
+    var name=nEl?nEl.value.trim():'', phone=pEl?pEl.value.trim():'';
+    if(!name||!phone)return;
+    try{ if(window.CMS&&window.CMS.client){ await window.CMS.client.from('leads').insert({name:name,phone:phone}); } }catch(err){ console.warn('lead save',err); }
+    var box=form.closest('.lead-form'); if(box)box.classList.add('sent');
+  });
+});
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
