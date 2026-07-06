@@ -243,6 +243,8 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 .map-inner{display:grid;grid-template-columns:1fr;max-width:1200px;margin:0 auto}
 @media(min-width:768px){.map-inner{grid-template-columns:1fr 1fr;gap:2.5rem}}
 .map-info{padding:4rem 0;display:flex;flex-direction:column;justify-content:space-between;gap:1.5rem}
+.map-phones{display:flex;flex-direction:column;gap:.75rem;align-items:stretch;max-width:340px}
+.map-phones .btn{justify-content:center}
 .map-info .section-label{color:var(--c-aqua)}
 .map-info h2{color:#fff;margin:.3rem 0 .6rem}
 .map-address{color:var(--c-mist);line-height:1.8}
@@ -606,7 +608,10 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
           <h2 data-cms="map_title">Завітайте до нашого офісу</h2>
           <p class="map-address"><span data-cms="address">м. Київ, вул. Якова Гніздовського, 1Е</span><br><span data-cms="hours">Пн–Пт: 9:00–18:00 · Сб: 10:00–15:00</span></p>
         </div>
-        <a href="tel:+380981306396" class="map-phone" data-cms-tel="phone_tel"><span data-cms="phone_display">+38 098 130 63 96</span> <span aria-hidden="true">→</span></a>
+        <div class="map-phones">
+          <a href="tel:+380674432613" class="btn btn--light" data-cms-tel="phone_tel">Зателефонувати: <span data-cms="phone_display">+38 067 443 26 13</span></a>
+          <a href="tel:+380995028998" class="btn btn--light" data-cms-tel="phone2_tel">Зателефонувати: <span data-cms="phone2_display">+38 099 502 89 98</span></a>
+        </div>
       </div>
       <div class="map-embed">
       <iframe src="https://maps.google.com/maps?cid=12972091085957032241&z=17&hl=uk&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Карта проїзду до СВІТСКЛА СЕРВІС"></iframe>
