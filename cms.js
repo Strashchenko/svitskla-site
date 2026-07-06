@@ -88,6 +88,10 @@
       var k = el.getAttribute('data-cms-mail');
       if (c[k]) el.setAttribute('href', 'mailto:' + c[k]);
     });
+    document.querySelectorAll('[data-cms-viber]').forEach(function (el) {
+      var k = el.getAttribute('data-cms-viber');
+      if (c[k]) el.setAttribute('href', 'viber://chat?number=' + encodeURIComponent(c[k].replace(/[^+\d]/g, '')));
+    });
   }
 
   // Відео-блок «Наші виконані роботи»: два слоти tiktok / instagram
