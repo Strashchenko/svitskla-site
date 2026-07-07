@@ -23,6 +23,33 @@
   }
   window.cdnImg = cdnImg;
 
+  // Ліниве відео: не завантажуємо файл, поки блок не потрапив у видиму зону.
+  // Це рятує від одночасного завантаження важких відео (hero-слайди по 40–50 МБ).
+  function makeVideo(url, className) {
+    var v = document.createElement('video');
+    v.muted = true; v.defaultMuted = true; v.loop = true; v.controls = false;
+    v.setAttribute('muted', ''); v.setAttribute('loop', '');
+    v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
+    v.setAttribute('preload', 'none');
+    v.dataset.src = url;
+    if (className) v.className = className;
+    return v;
+  }
+  function loadVideo(v) {
+    if (!v.dataset.loaded) { v.dataset.loaded = '1'; v.src = v.dataset.src; }
+    var p = v.play(); if (p && p.catch) p.catch(function () {});
+  }
+  function observeVideo(v, root) {
+    if (!('IntersectionObserver' in window)) { loadVideo(v); return; }
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (en) {
+        if (en.isIntersecting) { loadVideo(v); }
+        else if (v.dataset.loaded) { try { v.pause(); } catch (e) {} }
+      });
+    }, { root: root || null, threshold: 0.35 });
+    io.observe(v);
+  }
+
   var ready;
   window.CMS = {
     client: sb,
@@ -72,15 +99,12 @@
       var isBa = (el.className || '').indexOf('ba__img') !== -1;
       var ph = el.closest ? el.closest('.ph') : null;
       if (row.kind === 'video' && !isBa) {
-        var v = document.createElement('video');
-        v.muted = true; v.defaultMuted = true; v.autoplay = true; v.loop = true;
-        v.setAttribute('muted', ''); v.setAttribute('autoplay', '');
-        v.setAttribute('loop', ''); v.setAttribute('playsinline', '');
-        v.setAttribute('webkit-playsinline', ''); v.setAttribute('preload', 'auto');
-        v.controls = false; v.src = row.url;
-        if (el.className) v.className = el.className;
+        var v = makeVideo(row.url, el.className);
         if (el.parentNode) el.parentNode.replaceChild(v, el);
-        var p = v.play(); if (p && p.catch) p.catch(function () {});
+        // hero-слайди спостерігаємо всередині каруселі (вантажимо лише активний слайд),
+        // решту відео — відносно вікна (вантажимо при прокрутці до них)
+        var root = key.indexOf('hero') === 0 ? document.querySelector('.hero-carousel') : null;
+        observeVideo(v, root);
       } else {
         setImg(el, row.url, 1000);
       }
@@ -119,7 +143,10 @@
       var btn = item.querySelector('a.btn');
       if (frame) {
         frame.setAttribute('href', link);
-        frame.innerHTML = '<video src="' + row.url + '" autoplay muted loop playsinline preload="metadata"></video>';
+        frame.innerHTML = '';
+        var wv = makeVideo(row.url, '');
+        frame.appendChild(wv);
+        observeVideo(wv, null); // завантажиться при прокрутці до блоку
       }
       if (btn) { btn.setAttribute('href', link); if (row.caption) { var lab = btn.querySelector('.btn-label'); if (lab) lab.textContent = row.caption; else btn.textContent = row.caption; } }
     });
