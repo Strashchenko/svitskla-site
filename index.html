@@ -675,7 +675,7 @@ const track=document.getElementById('heroTrack');
 const slides=track?Array.from(track.children):[];
 const dots=Array.from(document.querySelectorAll('#heroDots .carousel-dot'));
 let idx=0,timer=null;const DUR=6000;
-function go(n){idx=(n+slides.length)%slides.length;track.style.transform='translateX(-'+(idx*100)+'%)';dots.forEach((d,i)=>d.classList.toggle('active',i===idx));}
+function go(n){idx=(n+slides.length)%slides.length;track.style.transform='translateX(-'+(idx*100)+'%)';dots.forEach((d,i)=>d.classList.toggle('active',i===idx));window.__heroIdx=idx;if(window.activateHeroSlide)window.activateHeroSlide(idx);}
 function next(){go(idx+1);}
 function play(){stop();timer=setInterval(next,DUR);}
 function stop(){if(timer){clearInterval(timer);timer=null;}}

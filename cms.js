@@ -49,6 +49,15 @@
     }, { root: root || null, threshold: 0.35 });
     io.observe(v);
   }
+  // Реєстр hero-відео; карусель (index.html go()) викликає activateHeroSlide(idx)
+  window.__heroVids = window.__heroVids || {};
+  window.activateHeroSlide = function (i) {
+    Object.keys(window.__heroVids).forEach(function (k) {
+      var v = window.__heroVids[k];
+      if (+k === +i) { loadVideo(v); }
+      else if (v.dataset.loaded) { try { v.pause(); } catch (e) {} }
+    });
+  };
 
   var ready;
   window.CMS = {
@@ -101,15 +110,20 @@
       if (row.kind === 'video' && !isBa) {
         var v = makeVideo(row.url, el.className);
         if (el.parentNode) el.parentNode.replaceChild(v, el);
-        // hero-слайди спостерігаємо всередині каруселі (вантажимо лише активний слайд),
-        // решту відео — відносно вікна (вантажимо при прокрутці до них)
-        var root = key.indexOf('hero') === 0 ? document.querySelector('.hero-carousel') : null;
-        observeVideo(v, root);
+        if (key.indexOf('hero') === 0) {
+          // hero-слайди керуються каруселлю: вантажимо лише активний слайд (див. activateHeroSlide)
+          var hi = parseInt(key.replace('hero', ''), 10) - 1;
+          if (hi >= 0) window.__heroVids[hi] = v;
+        } else {
+          observeVideo(v, null); // інші відео — вантажимо при прокрутці до них
+        }
       } else {
         setImg(el, row.url, 1000);
       }
       if (ph) { ph.classList.remove('ph'); ph.classList.remove('ph--video'); }
     });
+    // завантажити відео поточного активного слайда каруселі
+    if (window.activateHeroSlide) window.activateHeroSlide(window.__heroIdx || 0);
   }
 
   function applyTexts() {
