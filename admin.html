@@ -385,9 +385,9 @@ async function compressVideo(file, onProgress){
     const rec=new MediaRecorder(stream, opts);
     const chunks=[]; rec.ondataavailable=e=>{ if(e.data&&e.data.size) chunks.push(e.data); };
     const done=new Promise(res=>{ rec.onstop=res; });
-    let stopped=false;
+    let stopped=false, posterBlob=null, posterDone=false;
     const dur=(vid.duration&&isFinite(vid.duration))?vid.duration:0;
-    function draw(){ if(stopped)return; ctx.drawImage(vid,0,0,w,h); if(onProgress&&dur) onProgress(Math.min(99,Math.round(vid.currentTime/dur*100))); requestAnimationFrame(draw); }
+    function draw(){ if(stopped)return; ctx.drawImage(vid,0,0,w,h); if(!posterDone){ posterDone=true; canvas.toBlob(b=>{ posterBlob=b; },'image/jpeg',0.8); } if(onProgress&&dur) onProgress(Math.min(99,Math.round(vid.currentTime/dur*100))); requestAnimationFrame(draw); }
     vid.onended=()=>{ stopped=true; try{rec.stop();}catch(e){} };
     rec.start();
     await vid.play();
@@ -398,8 +398,10 @@ async function compressVideo(file, onProgress){
     const type=mime||'video/webm';
     const ext=(type.indexOf('mp4')!==-1)?'mp4':'webm';
     const blob=new Blob(chunks,{type:type});
-    if(blob.size>=file.size) return file;
-    return new File([blob], file.name.replace(/\.[^.]+$/,'')+'.'+ext, {type:type});
+    if(blob.size>=file.size){ if(posterBlob) file.__poster=posterBlob; return file; }
+    const outFile=new File([blob], file.name.replace(/\.[^.]+$/,'')+'.'+ext, {type:type});
+    if(posterBlob) outFile.__poster=posterBlob;
+    return outFile;
   }catch(e){ return file; }
 }
 
@@ -416,11 +418,13 @@ async function addSingle(){
   const up = await db.storage.from('media').upload(path, file, {upsert:false});
   if(up.error){ $('#mediaStatus').textContent='Помилка: '+up.error.message; return; }
   const url = db.storage.from('media').getPublicUrl(path).data.publicUrl;
+  let posterUrl=null;
+  if(isVideo && file.__poster){ const pp=path+'.jpg'; const pu=await db.storage.from('media').upload(pp,file.__poster,{upsert:true,contentType:'image/jpeg'}); if(!pu.error) posterUrl=db.storage.from('media').getPublicUrl(pp).data.publicUrl; }
   // прибрати попередній файл і запис у цьому слоті
   const { data:old } = await db.from('gallery').select('id,storage_path').eq('section',s.id).eq('subcategory',slot);
   if(old && old.length){ const paths=old.map(o=>o.storage_path).filter(Boolean); if(paths.length) await db.storage.from('media').remove(paths); await db.from('gallery').delete().eq('section',s.id).eq('subcategory',slot); }
   const pos = s.slots.findIndex(x=>x[0]===slot);
-  const ins = await db.from('gallery').insert({ section:s.id, subcategory:slot, kind:isVideo?'video':'image', url, storage_path:path, position:pos });
+  const ins = await db.from('gallery').insert({ section:s.id, subcategory:slot, kind:isVideo?'video':'image', url, storage_path:path, position:pos, poster:posterUrl });
   $('#mediaStatus').textContent = ins.error?('Помилка: '+ins.error.message):'Збережено ✓';
   setTimeout(()=>{$('#mediaStatus').textContent='';},2200);
   $('#slotFile').value='';
@@ -455,8 +459,10 @@ async function addWorks(){
   const up=await db.storage.from('media').upload(path,file);
   if(up.error){ $('#mediaStatus').textContent='Помилка: '+up.error.message; return; }
   const url=db.storage.from('media').getPublicUrl(path).data.publicUrl;
+  let posterUrl=null;
+  if(file.__poster){ const pp=path+'.jpg'; const pu=await db.storage.from('media').upload(pp,file.__poster,{upsert:true,contentType:'image/jpeg'}); if(!pu.error) posterUrl=db.storage.from('media').getPublicUrl(pp).data.publicUrl; }
   await db.from('gallery').delete().eq('section','works').eq('subcategory',slot);
-  const ins=await db.from('gallery').insert({section:'works',subcategory:slot,kind:'video',url:url,link:link||null,caption:cap||null,position:slot==='tiktok'?0:1});
+  const ins=await db.from('gallery').insert({section:'works',subcategory:slot,kind:'video',url:url,link:link||null,caption:cap||null,position:slot==='tiktok'?0:1,poster:posterUrl});
   $('#mediaStatus').textContent = ins.error?('Помилка: '+ins.error.message):'Збережено ✓';
   setTimeout(()=>{$('#mediaStatus').textContent='';},2500);
   renderMedia();

@@ -25,19 +25,34 @@
 
   // Ліниве відео: не завантажуємо файл, поки блок не потрапив у видиму зону.
   // Це рятує від одночасного завантаження важких відео (hero-слайди по 40–50 МБ).
-  function makeVideo(url, className) {
+  function makeVideo(url, className, poster) {
     var v = document.createElement('video');
     v.muted = true; v.defaultMuted = true; v.loop = true; v.controls = false;
     v.setAttribute('muted', ''); v.setAttribute('loop', '');
     v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
     v.setAttribute('preload', 'none');
     v.dataset.src = url;
+    // постер (перший кадр) показується миттєво — блок не порожній, навіть якщо автозапуск заблоковано
+    if (poster) v.poster = cdnImg(poster, 800);
     if (className) v.className = className;
     return v;
   }
   function loadVideo(v) {
     if (!v.dataset.loaded) { v.dataset.loaded = '1'; v.src = v.dataset.src; }
     var p = v.play(); if (p && p.catch) p.catch(function () {});
+  }
+  // У вбудованих браузерах (Instagram/Telegram) автозапуск часто блокується до дії користувача.
+  // За першим дотиком/кліком пробуємо запустити активне hero-відео.
+  function armGesturePlay() {
+    function tryPlay() {
+      var i = window.__heroIdx || 0;
+      var v = window.__heroVids && window.__heroVids[i];
+      if (v) { loadVideo(v); }
+      document.removeEventListener('touchstart', tryPlay);
+      document.removeEventListener('click', tryPlay);
+    }
+    document.addEventListener('touchstart', tryPlay, { passive: true, once: true });
+    document.addEventListener('click', tryPlay, { once: true });
   }
   function observeVideo(v, root) {
     if (!('IntersectionObserver' in window)) { loadVideo(v); return; }
@@ -108,7 +123,7 @@
       var isBa = (el.className || '').indexOf('ba__img') !== -1;
       var ph = el.closest ? el.closest('.ph') : null;
       if (row.kind === 'video' && !isBa) {
-        var v = makeVideo(row.url, el.className);
+        var v = makeVideo(row.url, el.className, row.poster);
         if (el.parentNode) el.parentNode.replaceChild(v, el);
         if (key.indexOf('hero') === 0) {
           // hero-слайди керуються каруселлю: вантажимо лише активний слайд (див. activateHeroSlide)
@@ -122,8 +137,9 @@
       }
       if (ph) { ph.classList.remove('ph'); ph.classList.remove('ph--video'); }
     });
-    // завантажити відео поточного активного слайда каруселі
+    // завантажити відео поточного активного слайда каруселі + запуск за жестом (in-app браузери)
     if (window.activateHeroSlide) window.activateHeroSlide(window.__heroIdx || 0);
+    armGesturePlay();
   }
 
   function applyTexts() {
@@ -158,7 +174,7 @@
       if (frame) {
         frame.setAttribute('href', link);
         frame.innerHTML = '';
-        var wv = makeVideo(row.url, '');
+        var wv = makeVideo(row.url, '', row.poster);
         frame.appendChild(wv);
         observeVideo(wv, null); // завантажиться при прокрутці до блоку
       }
