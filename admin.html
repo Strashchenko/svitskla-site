@@ -362,14 +362,56 @@ async function compressImage(file){
   }catch(e){ return file; }
 }
 
+// Авто-стиснення відео: перекодовує до 720p, ~1.6 Мбіт/с нативним кодеком браузера.
+// Важке відео з телефона (40–50 МБ) стає ~5–8 МБ. Звук прибираємо (на сайті відео беззвучні).
+// Обробка триває приблизно стільки ж, скільки саме відео. Якщо не підтримується — лишаємо оригінал.
+async function compressVideo(file, onProgress){
+  if(!file || !/^video\//.test(file.type) || typeof MediaRecorder==='undefined') return file;
+  try{
+    const url=URL.createObjectURL(file);
+    const vid=document.createElement('video');
+    vid.src=url; vid.muted=true; vid.playsInline=true;
+    vid.setAttribute('muted',''); vid.setAttribute('playsinline','');
+    await new Promise((res,rej)=>{ vid.onloadedmetadata=()=>res(); vid.onerror=()=>rej(); });
+    const maxH=720, scale=Math.min(1, maxH/(vid.videoHeight||maxH));
+    let w=Math.round((vid.videoWidth||1280)*scale), h=Math.round((vid.videoHeight||720)*scale);
+    w-=w%2; h-=h%2;
+    const canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
+    const ctx=canvas.getContext('2d');
+    const stream=canvas.captureStream(30);
+    const mimes=['video/mp4;codecs=h264','video/mp4','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];
+    let mime=''; for(const m of mimes){ if(MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)){ mime=m; break; } }
+    const opts={ videoBitsPerSecond:1600000 }; if(mime) opts.mimeType=mime;
+    const rec=new MediaRecorder(stream, opts);
+    const chunks=[]; rec.ondataavailable=e=>{ if(e.data&&e.data.size) chunks.push(e.data); };
+    const done=new Promise(res=>{ rec.onstop=res; });
+    let stopped=false;
+    const dur=(vid.duration&&isFinite(vid.duration))?vid.duration:0;
+    function draw(){ if(stopped)return; ctx.drawImage(vid,0,0,w,h); if(onProgress&&dur) onProgress(Math.min(99,Math.round(vid.currentTime/dur*100))); requestAnimationFrame(draw); }
+    vid.onended=()=>{ stopped=true; try{rec.stop();}catch(e){} };
+    rec.start();
+    await vid.play();
+    draw();
+    await done;
+    URL.revokeObjectURL(url);
+    if(!chunks.length) return file;
+    const type=mime||'video/webm';
+    const ext=(type.indexOf('mp4')!==-1)?'mp4':'webm';
+    const blob=new Blob(chunks,{type:type});
+    if(blob.size>=file.size) return file;
+    return new File([blob], file.name.replace(/\.[^.]+$/,'')+'.'+ext, {type:type});
+  }catch(e){ return file; }
+}
+
 async function addSingle(){
   const s=curSection(); const slot=$('#slotSel').value; let file=$('#slotFile').files[0];
   if(!file){ $('#mediaStatus').textContent='Оберіть файл'; return; }
   const isVideo = /^video\//.test(file.type);
   if(s.imageOnly && isVideo){ $('#mediaStatus').textContent='Сюди можна лише фото'; return; }
   if(s.videoOnly && !isVideo){ $('#mediaStatus').textContent='Сюди можна лише відео'; return; }
+  if(isVideo){ $('#mediaStatus').textContent='Стиснення відео… зачекайте'; file = await compressVideo(file, p=>{ $('#mediaStatus').textContent='Стиснення відео… '+p+'%'; }); }
+  else { file = await compressImage(file); }
   $('#mediaStatus').textContent='Завантаження…';
-  if(!isVideo){ file = await compressImage(file); }
   const path = s.id+'/'+slot+'_'+Date.now()+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'');
   const up = await db.storage.from('media').upload(path, file, {upsert:false});
   if(up.error){ $('#mediaStatus').textContent='Помилка: '+up.error.message; return; }
@@ -404,8 +446,10 @@ async function addPhotos(){
 }
 
 async function addWorks(){
-  const slot=$('#slotSel').value; const file=$('#vidFile').files[0]; const link=$('#vidLink').value.trim(); const cap=$('#vidCap').value.trim();
+  const slot=$('#slotSel').value; let file=$('#vidFile').files[0]; const link=$('#vidLink').value.trim(); const cap=$('#vidCap').value.trim();
   if(!file){ $('#mediaStatus').textContent='Оберіть відеофайл'; return; }
+  $('#mediaStatus').textContent='Стиснення відео… зачекайте';
+  file = await compressVideo(file, p=>{ $('#mediaStatus').textContent='Стиснення відео… '+p+'%'; });
   $('#mediaStatus').textContent='Завантаження…';
   const path='works/'+slot+'_'+Date.now()+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'');
   const up=await db.storage.from('media').upload(path,file);
