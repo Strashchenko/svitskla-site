@@ -28,18 +28,23 @@
   function makeVideo(url, className, poster) {
     var v = document.createElement('video');
     v.muted = true; v.defaultMuted = true; v.loop = true; v.controls = false;
-    v.setAttribute('muted', ''); v.setAttribute('loop', '');
+    v.autoplay = true; // muted-відео стартує автоматично, у т.ч. в мобільних браузерах
+    v.setAttribute('muted', ''); v.setAttribute('loop', ''); v.setAttribute('autoplay', '');
     v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
     v.setAttribute('preload', 'none');
     v.dataset.src = url;
-    // постер (перший кадр) показується миттєво — блок не порожній, навіть якщо автозапуск заблоковано
+    // постер (перший кадр) показується миттєво, поки відео завантажується
     if (poster) v.poster = cdnImg(poster, 800);
     if (className) v.className = className;
     return v;
   }
   function loadVideo(v) {
     if (!v.dataset.loaded) { v.dataset.loaded = '1'; v.src = v.dataset.src; }
-    var p = v.play(); if (p && p.catch) p.catch(function () {});
+    var tryp = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+    tryp();
+    // кілька спроб — деякі мобільні браузери стартують лише коли є дані
+    v.addEventListener('loadeddata', tryp, { once: true });
+    v.addEventListener('canplay', tryp, { once: true });
   }
   // У вбудованих браузерах (Instagram/Telegram) автозапуск часто блокується до дії користувача.
   // За першим дотиком/кліком пробуємо запустити активне hero-відео.
