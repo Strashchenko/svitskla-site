@@ -63,14 +63,10 @@
     try { if (getComputedStyle(parent).position === 'static') parent.style.position = 'relative'; } catch (e) {}
     var b = document.createElement('button');
     b.type = 'button'; b.className = 'hero-play'; b.setAttribute('aria-label', 'Увімкнути відео');
-    b.innerHTML = '<svg class="hero-play__icon" viewBox="0 0 120 140" width="80" height="94" fill="none" stroke="#15C9EA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<circle cx="52" cy="34" r="28"/>' +
-      '<path d="M43 20 L72 34 L43 48 Z" fill="#15C9EA" stroke="none"/>' +
-      '<path d="M46 86 v-28 a9 9 0 0 1 18 0 v18"/>' +
-      '<path d="M64 74 v-6 a8 8 0 0 1 16 0 v14"/>' +
-      '<path d="M80 82 v-4 a8 8 0 0 1 15 0 v12"/>' +
-      '<path d="M46 84 v14 a20 20 0 0 0 20 20 h14 a15 15 0 0 0 15 -15 v-15"/>' +
-      '<path d="M46 92 l-12 8"/></svg>';
+    b.innerHTML = '<svg class="hero-play__icon" viewBox="0 0 120 150" width="80" height="100" fill="none" stroke="#15C9EA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<circle cx="54" cy="34" r="27"/>' +
+      '<path d="M45 21 L73 34 L45 47 Z" fill="#15C9EA" stroke="none"/>' +
+      '<path d="M44 66 a10 10 0 0 1 20 0 V96 C64 86 72 84 78 88 C82 85 88 86 92 91 C96 94 98 95 98 100 V118 Q98 130 86 130 H52 Q40 130 37 120 L31 109 Q35 103 42 105 L44 96 Z"/></svg>';
     b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); loadVideo(v); b.classList.add('is-hidden'); });
     v.addEventListener('playing', function () { b.classList.add('is-hidden'); });
     v.addEventListener('pause', function () { b.classList.remove('is-hidden'); });
