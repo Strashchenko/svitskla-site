@@ -63,7 +63,7 @@
     try { if (getComputedStyle(parent).position === 'static') parent.style.position = 'relative'; } catch (e) {}
     var b = document.createElement('button');
     b.type = 'button'; b.className = 'hero-play'; b.setAttribute('aria-label', 'Увімкнути відео');
-    b.innerHTML = '<span class="hero-play__circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="hero-play__label">Увімкнути відео</span>';
+    b.innerHTML = '<span class="hero-play__circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="hero-play__label">play</span>';
     b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); loadVideo(v); b.classList.add('is-hidden'); });
     v.addEventListener('playing', function () { b.classList.add('is-hidden'); });
     v.addEventListener('pause', function () { b.classList.remove('is-hidden'); });
