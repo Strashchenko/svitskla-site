@@ -63,7 +63,14 @@
     try { if (getComputedStyle(parent).position === 'static') parent.style.position = 'relative'; } catch (e) {}
     var b = document.createElement('button');
     b.type = 'button'; b.className = 'hero-play'; b.setAttribute('aria-label', 'Увімкнути відео');
-    b.innerHTML = '<span class="hero-play__circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="hero-play__label">play</span>';
+    b.innerHTML = '<svg class="hero-play__icon" viewBox="0 0 120 140" width="80" height="94" fill="none" stroke="#15C9EA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<circle cx="52" cy="34" r="28"/>' +
+      '<path d="M43 20 L72 34 L43 48 Z" fill="#15C9EA" stroke="none"/>' +
+      '<path d="M46 86 v-28 a9 9 0 0 1 18 0 v18"/>' +
+      '<path d="M64 74 v-6 a8 8 0 0 1 16 0 v14"/>' +
+      '<path d="M80 82 v-4 a8 8 0 0 1 15 0 v12"/>' +
+      '<path d="M46 84 v14 a20 20 0 0 0 20 20 h14 a15 15 0 0 0 15 -15 v-15"/>' +
+      '<path d="M46 92 l-12 8"/></svg>';
     b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); loadVideo(v); b.classList.add('is-hidden'); });
     v.addEventListener('playing', function () { b.classList.add('is-hidden'); });
     v.addEventListener('pause', function () { b.classList.remove('is-hidden'); });
