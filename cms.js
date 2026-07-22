@@ -23,17 +23,25 @@
   }
   window.cdnImg = cdnImg;
 
+  // На сенсорних пристроях (телефони/планшети) відео автозапуску iOS примусово відкриває
+  // на весь екран і заважає прокрутці. Тому автозапуск hero лишаємо ЛИШЕ на десктопі.
+  // На мобільному банер показує нерухомий кадр (постер); відео грає тільки якщо тапнути.
+  var HERO_AUTOPLAY = !(window.matchMedia && (
+    window.matchMedia('(pointer: coarse)').matches ||
+    window.matchMedia('(max-width: 900px)').matches));
+
   // Ліниве відео: не завантажуємо файл, поки блок не потрапив у видиму зону.
   // Це рятує від одночасного завантаження важких відео (hero-слайди по 40–50 МБ).
-  function makeVideo(url, className, poster) {
+  function makeVideo(url, className, poster, autoplay) {
     var v = document.createElement('video');
     v.muted = true; v.defaultMuted = true; v.loop = true; v.controls = false;
-    v.autoplay = true; // muted-відео стартує автоматично, у т.ч. в мобільних браузерах
-    v.setAttribute('muted', ''); v.setAttribute('loop', ''); v.setAttribute('autoplay', '');
+    v.setAttribute('muted', ''); v.setAttribute('loop', '');
     v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
     v.setAttribute('preload', 'none');
+    // автозапуск лише де треба (hero). Решта відео — статичний постер, гра по тапу,
+    // щоб на мобільному вони не запускались самі й не перехоплювали прокрутку.
+    if (autoplay) { v.autoplay = true; v.setAttribute('autoplay', ''); }
     v.dataset.src = url;
-    // постер (перший кадр) показується миттєво, поки відео завантажується
     if (poster) v.poster = cdnImg(poster, 800);
     if (className) v.className = className;
     return v;
@@ -42,36 +50,17 @@
     if (!v.dataset.loaded) { v.dataset.loaded = '1'; v.src = v.dataset.src; }
     var tryp = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
     tryp();
-    // кілька спроб — деякі мобільні браузери стартують лише коли є дані
     v.addEventListener('loadeddata', tryp, { once: true });
     v.addEventListener('canplay', tryp, { once: true });
   }
-  // У вбудованих браузерах (Instagram/Telegram) автозапуск часто блокується до дії користувача.
-  // За першим дотиком/кліком пробуємо запустити активне hero-відео.
-  function armGesturePlay() {
-    function tryPlay() {
-      var i = window.__heroIdx || 0;
-      var v = window.__heroVids && window.__heroVids[i];
-      if (v) { loadVideo(v); }
-      document.removeEventListener('touchstart', tryPlay);
-      document.removeEventListener('click', tryPlay);
-    }
-    document.addEventListener('touchstart', tryPlay, { passive: true, once: true });
-    document.addEventListener('click', tryPlay, { once: true });
-  }
-  function observeVideo(v, root) {
-    if (!('IntersectionObserver' in window)) { loadVideo(v); return; }
-    var io = new IntersectionObserver(function (ents) {
-      ents.forEach(function (en) {
-        if (en.isIntersecting) { loadVideo(v); }
-        else if (v.dataset.loaded) { try { v.pause(); } catch (e) {} }
-      });
-    }, { root: root || null, threshold: 0.35 });
-    io.observe(v);
+  // Відео поза hero: показуємо постер, запускаємо лише коли користувач сам тапне
+  function tapToPlay(v) {
+    v.addEventListener('click', function () { loadVideo(v); }, { once: true });
   }
   // Реєстр hero-відео; карусель (index.html go()) викликає activateHeroSlide(idx)
   window.__heroVids = window.__heroVids || {};
   window.activateHeroSlide = function (i) {
+    if (!HERO_AUTOPLAY) return; // мобільний: банер лишається постером, без автозапуску
     Object.keys(window.__heroVids).forEach(function (k) {
       var v = window.__heroVids[k];
       if (+k === +i) { loadVideo(v); }
@@ -128,23 +117,23 @@
       var isBa = (el.className || '').indexOf('ba__img') !== -1;
       var ph = el.closest ? el.closest('.ph') : null;
       if (row.kind === 'video' && !isBa) {
-        var v = makeVideo(row.url, el.className, row.poster);
+        var isHero = key.indexOf('hero') === 0;
+        var v = makeVideo(row.url, el.className, row.poster, isHero && HERO_AUTOPLAY);
         if (el.parentNode) el.parentNode.replaceChild(v, el);
-        if (key.indexOf('hero') === 0) {
-          // hero-слайди керуються каруселлю: вантажимо лише активний слайд (див. activateHeroSlide)
+        if (isHero) {
           var hi = parseInt(key.replace('hero', ''), 10) - 1;
           if (hi >= 0) window.__heroVids[hi] = v;
+          if (!HERO_AUTOPLAY) tapToPlay(v); // мобільний: постер, відео лише по тапу
         } else {
-          observeVideo(v, null); // інші відео — вантажимо при прокрутці до них
+          tapToPlay(v); // напр. «Виробництво» — постер, грає по тапу (не заважає прокрутці)
         }
       } else {
         setImg(el, row.url, 1000);
       }
       if (ph) { ph.classList.remove('ph'); ph.classList.remove('ph--video'); }
     });
-    // завантажити відео поточного активного слайда каруселі + запуск за жестом (in-app браузери)
+    // автозапуск відео активного слайда каруселі
     if (window.activateHeroSlide) window.activateHeroSlide(window.__heroIdx || 0);
-    armGesturePlay();
   }
 
   function applyTexts() {
@@ -179,9 +168,9 @@
       if (frame) {
         frame.setAttribute('href', link);
         frame.innerHTML = '';
-        var wv = makeVideo(row.url, '', row.poster);
+        // постер-прев'ю (без автозапуску); тап по ньому веде у TikTok/Instagram
+        var wv = makeVideo(row.url, '', row.poster, false);
         frame.appendChild(wv);
-        observeVideo(wv, null); // завантажиться при прокрутці до блоку
       }
       if (btn) { btn.setAttribute('href', link); if (row.caption) { var lab = btn.querySelector('.btn-label'); if (lab) lab.textContent = row.caption; else btn.textContent = row.caption; } }
     });
