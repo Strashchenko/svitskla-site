@@ -66,8 +66,8 @@
     b.innerHTML = '<svg class="hero-play__icon" viewBox="0 0 150 130" width="96" height="83" fill="none" stroke="#15C9EA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '<circle cx="50" cy="46" r="34"/>' +
       '<path d="M42 32 L42 60 L68 46 Z" fill="#15C9EA" stroke="none"/>' +
-      '<path d="M128 112 C104 116 86 104 82 80"/>' +
-      '<path d="M82 80 l11 5 M82 80 l-3 12"/></svg>';
+      '<path d="M124 108 L86 80"/>' +
+      '<path d="M86 80 L101 85 M86 80 L92 95"/></svg>';
     b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); loadVideo(v); b.classList.add('is-hidden'); });
     v.addEventListener('playing', function () { b.classList.add('is-hidden'); });
     v.addEventListener('pause', function () { b.classList.remove('is-hidden'); });
