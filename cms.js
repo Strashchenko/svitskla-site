@@ -57,6 +57,18 @@
   function tapToPlay(v) {
     v.addEventListener('click', function () { loadVideo(v); }, { once: true });
   }
+  // Напівпрозора кнопка «Увімкнути відео» по центру hero-банера (мобільний, поки не грає)
+  function addHeroPlayButton(v) {
+    var parent = v.parentNode; if (!parent) return;
+    try { if (getComputedStyle(parent).position === 'static') parent.style.position = 'relative'; } catch (e) {}
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'hero-play'; b.setAttribute('aria-label', 'Увімкнути відео');
+    b.innerHTML = '<span class="hero-play__circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="hero-play__label">Увімкнути відео</span>';
+    b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); loadVideo(v); b.classList.add('is-hidden'); });
+    v.addEventListener('playing', function () { b.classList.add('is-hidden'); });
+    v.addEventListener('pause', function () { b.classList.remove('is-hidden'); });
+    parent.appendChild(b);
+  }
   // Реєстр hero-відео; карусель (index.html go()) викликає activateHeroSlide(idx)
   window.__heroVids = window.__heroVids || {};
   window.activateHeroSlide = function (i) {
@@ -123,7 +135,7 @@
         if (isHero) {
           var hi = parseInt(key.replace('hero', ''), 10) - 1;
           if (hi >= 0) window.__heroVids[hi] = v;
-          if (!HERO_AUTOPLAY) tapToPlay(v); // мобільний: постер, відео лише по тапу
+          if (!HERO_AUTOPLAY) addHeroPlayButton(v); // мобільний: постер + кнопка «Увімкнути відео»
         } else {
           tapToPlay(v); // напр. «Виробництво» — постер, грає по тапу (не заважає прокрутці)
         }

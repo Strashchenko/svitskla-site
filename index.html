@@ -117,6 +117,12 @@ p{font-size:1rem;line-height:1.65;font-weight:400}
 .carousel-dot.active::after{content:"";position:absolute;left:0;top:0;height:100%;background:var(--grad);animation:progressLine 6s linear forwards}
 @keyframes progressLine{from{width:0}to{width:100%}}
 .carousel-pause{position:absolute;bottom:2.25rem;left:1.5rem;background:rgba(255,255,255,.12);backdrop-filter:blur(4px);border:none;color:#fff;width:2.1rem;height:2.1rem;border-radius:50%;cursor:pointer;z-index:3}
+/* Кнопка «Увімкнути відео» по центру hero-банера (мобільний) */
+.hero-play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;background:transparent;border:0;cursor:pointer;z-index:4;padding:0}
+.hero-play__circle{width:4.6rem;height:4.6rem;border-radius:50%;display:grid;place-items:center;background:rgba(21,201,234,.45);border:1.5px solid rgba(255,255,255,.6);backdrop-filter:blur(3px);box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.hero-play__circle svg{width:2.1rem;height:2.1rem;fill:#fff;margin-left:.22rem}
+.hero-play__label{font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:rgba(21,201,234,.9);text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.hero-play.is-hidden{display:none}
 
 /* ============================ PRODUCTS GRID ============================ */
 .products-section{padding:6rem 1.5rem;background:var(--bg-white)}
